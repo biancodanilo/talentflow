@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TalentFlow - Redirecionando...</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: #0b1120;
+      color: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      overflow-x: hidden;
+    }
+
+    /* Fundo com efeito sutil de grade */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 50% 20%, rgba(16, 185, 129, 0.08), transparent 70%),
+                  radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.06), transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 520px;
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: 24px;
+      padding: 36px 32px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5),
+                  0 0 0 1px rgba(255, 255, 255, 0.05);
+      text-align: center;
+      animation: fadeIn 0.4s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* Estado de Carregamento */
+    .loading-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .radar-pulse {
+      position: relative;
+      width: 80px;
+      height: 80px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .radar-pulse .circle-1,
+    .radar-pulse .circle-2 {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: rgba(16, 185, 129, 0.2);
+      animation: pulse 2s infinite ease-out;
+    }
+
+    .radar-pulse .circle-2 {
+      animation-delay: 1s;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(0.6); opacity: 0.8; }
+      100% { transform: scale(1.6); opacity: 0; }
+    }
+
+    .logo-badge {
+      position: relative;
+      z-index: 2;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 20px -5px rgba(16, 185, 129, 0.4);
+    }
+
+    .logo-badge svg {
+      width: 32px;
+      height: 32px;
+      fill: none;
+      stroke: #ffffff;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    h1 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 8px;
+      letter-spacing: -0.3px;
+    }
+
+    p.subtitle {
+      font-size: 14px;
+      color: #94a3b8;
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 6px;
+      background: #1e293b;
+      border-radius: 999px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-bar-fill {
+      position: absolute;
+      height: 100%;
+      width: 45%;
+      background: linear-gradient(90deg, #10b981, #38bdf8);
+      border-radius: 999px;
+      animation: loadingBar 1.5s infinite ease-in-out;
+    }
+
+    @keyframes loadingBar {
+      0% { left: -45%; }
+      50% { left: 50%; }
+      100% { left: 100%; }
+    }
+
+    /* Estado de Erro */
+    .error-state {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      animation: fadeIn 0.4s ease-out;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      border-radius: 999px;
+      color: #f87171;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 18px;
+    }
+
+    .status-badge .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #ef4444;
+      box-shadow: 0 0 10px #ef4444;
+      animation: blink 1.5s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .error-icon {
+      width: 64px;
+      height: 64px;
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.25);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      color: #f87171;
+    }
+
+    .error-icon svg {
+      width: 32px;
+      height: 32px;
+      stroke-width: 2.2;
+    }
+
+    .target-url-box {
+      background: #020617;
+      border: 1px solid #1e293b;
+      padding: 8px 14px;
+      border-radius: 12px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 12px;
+      color: #38bdf8;
+      word-break: break-all;
+      margin-bottom: 22px;
+      width: 100%;
+    }
+
+    /* Card de Contato */
+    .contact-card {
+      width: 100%;
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 18px;
+      padding: 18px;
+      margin-bottom: 20px;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .contact-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .contact-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 15px;
+      color: #ffffff;
+      flex-shrink: 0;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .contact-names h2 {
+      font-size: 15px;
+      font-weight: 600;
+      color: #f8fafc;
+    }
+
+    .contact-names p {
+      font-size: 12px;
+      color: #94a3b8;
+    }
+
+    .btn-contact {
+      background: #0284c7;
+      color: #ffffff;
+      padding: 10px 16px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-contact:hover {
+      background: #0369a1;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+    }
+
+    /* Ações Inferiores */
+    .actions {
+      display: flex;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .btn-retry {
+      flex: 1;
+      background: #10b981;
+      color: #022c22;
+      border: none;
+      padding: 12px 18px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .btn-retry:hover {
+      background: #34d399;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(16, 185, 129, 0.3);
+    }
+
+    .btn-retry svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .retry-timer {
+      font-size: 12px;
+      color: #64748b;
+      margin-top: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Estado 1: Verificando Conexão e Redirecionando -->
+    <div id="loading-state" class="loading-state">
+      <div class="radar-pulse">
+        <div class="circle-1"></div>
+        <div class="circle-2"></div>
+        <div class="logo-badge">
+          <svg viewBox="0 0 24 24">
+            <polygon points="12 2 19 21 12 17 5 21 12 2"></polygon>
+          </svg>
+        </div>
+      </div>
+      <h1>Conectando ao TalentFlow</h1>
+      <p class="subtitle">Verificando a disponibilidade do servidor seguro...</p>
+      <div class="progress-bar">
+        <div class="progress-bar-fill"></div>
+      </div>
+    </div>
+
+    <!-- Estado 2: Servidor Fora do Ar -->
+    <div id="error-state" class="error-state">
+      <div class="status-badge">
+        <span class="dot"></span>
+        Servidor Fora do Ar
+      </div>
+
+      <div class="error-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+      </div>
+
+      <h1>TalentFlow está Fora do Ar</h1>
+      <p class="subtitle">
+        Não foi possível acessar o serviço no momento. Por favor, aguarde alguns instantes enquanto o servidor é reestabelecido ou entre em contato com o responsável:
+      </p>
+
+      <div class="target-url-box">
+        https://talentflow.tail5f8db5.ts.net/
+      </div>
+
+      <!-- Card de Contato -->
+      <div class="contact-card">
+        <div class="contact-info">
+          <div class="contact-avatar">DG</div>
+          <div class="contact-names">
+            <h2>Danilo Gregorio Bianco</h2>
+            <p>Administrador & Desenvolvedor</p>
+          </div>
+        </div>
+        <a href="https://biancodanilo.github.io/danilo/" target="_blank" rel="noopener noreferrer" class="btn-contact">
+          <span>Contato</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+            <polyline points="15 3 21 3 21 9"></polyline>
+            <line x1="10" y1="14" x2="21" y2="3"></line>
+          </svg>
+        </a>
+      </div>
+
+      <!-- Ações -->
+      <div class="actions">
+        <button id="btn-retry" class="btn-retry" onclick="retryCheck()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="23 4 23 10 17 10"></polyline>
+            <polyline points="1 20 1 14 7 14"></polyline>
+            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+          </svg>
+          Tentar Conectar Novamente
+        </button>
+      </div>
+
+      <div id="countdown" class="retry-timer">
+        Nova tentativa automática em <span id="timer-sec">20</span>s...
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const TARGET_URL = 'https://talentflow.tail5f8db5.ts.net/';
+    const HEALTH_URL = 'https://talentflow.tail5f8db5.ts.net/api/health';
+    const TIMEOUT_MS = 3500; // Tempo limite para considerar o servidor fora
+    let retryInterval = null;
+    let countdownInterval = null;
+
+    async function checkServer() {
+      const loadingState = document.getElementById('loading-state');
+      const errorState = document.getElementById('error-state');
+
+      loadingState.style.display = 'flex';
+      errorState.style.display = 'none';
+      clearInterval(retryInterval);
+      clearInterval(countdownInterval);
+
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), TIMEOUT_MS);
+
+      try {
+        // Tentativa 1: Verifica o health check da API
+        const response = await fetch(HEALTH_URL, {
+          method: 'GET',
+          mode: 'cors',
+          cache: 'no-store',
+          signal: controller.signal
+        });
+
+        clearTimeout(timeoutId);
+
+        if (response.ok) {
+          window.location.replace(TARGET_URL);
+          return;
+        }
+      } catch (err) {
+        // Tentativa 2: Se falhar (ex: CORS no health ou path), tenta ping no root
+        try {
+          await fetch(TARGET_URL, {
+            method: 'HEAD',
+            mode: 'no-cors',
+            cache: 'no-store',
+            signal: controller.signal
+          });
+          clearTimeout(timeoutId);
+          window.location.replace(TARGET_URL);
+          return;
+        } catch (_) {
+          // Servidor realmente fora do ar
+        }
+      }
+
+      clearTimeout(timeoutId);
+      showError();
+    }
+
+    function showError() {
+      const loadingState = document.getElementById('loading-state');
+      const errorState = document.getElementById('error-state');
+
+      loadingState.style.display = 'none';
+      errorState.style.display = 'flex';
+
+      startCountdown(20);
+    }
+
+    function startCountdown(seconds) {
+      clearInterval(countdownInterval);
+      let remaining = seconds;
+      const timerSec = document.getElementById('timer-sec');
+      if (timerSec) timerSec.textContent = remaining;
+
+      countdownInterval = setInterval(() => {
+        remaining -= 1;
+        if (timerSec) timerSec.textContent = remaining;
+
+        if (remaining <= 0) {
+          clearInterval(countdownInterval);
+          checkServer();
+        }
+      }, 1000);
+    }
+
+    function retryCheck() {
+      checkServer();
+    }
+
+    // Inicia a verificação assim que carregar o HTML
+    window.addEventListener('DOMContentLoaded', checkServer);
+  </script>
+</body>
+</html>
