@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>404 - Servidor Fora do Ar | TalentFlow</title>
+  <title>TalentFlow - Acesso ao Sistema</title>
   <style>
     * {
       box-sizing: border-box;
@@ -19,209 +19,59 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 24px 16px;
-      overflow-x: hidden;
+      padding: 20px;
     }
 
-    /* Brilho radial de fundo */
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
+    .container {
       width: 100%;
-      height: 100%;
-      background: radial-gradient(circle at 50% 30%, rgba(239, 68, 68, 0.08), transparent 70%);
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    .card {
-      position: relative;
-      z-index: 1;
-      width: 100%;
-      max-width: 480px;
+      max-width: 440px;
       background: #0f172a;
       border: 1px solid #1e293b;
-      border-radius: 28px;
-      padding: 40px 32px;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6),
-                  0 0 0 1px rgba(255, 255, 255, 0.04);
+      border-radius: 24px;
+      padding: 32px 26px;
+      box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
       text-align: center;
-      animation: fadeIn 0.35s ease-out;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px) scale(0.98); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
-    }
-
-    /* Tela de Verificação Inicial (Loading) */
-    .loading-state {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .spinner {
-      width: 52px;
-      height: 52px;
-      border: 4px solid #1e293b;
-      border-top-color: #10b981;
-      border-radius: 50%;
-      animation: spin 1s infinite linear;
-      margin-bottom: 24px;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    .loading-title {
-      font-size: 20px;
-      font-weight: 700;
-      color: #ffffff;
-      margin-bottom: 8px;
-    }
-
-    .loading-text {
-      font-size: 14px;
-      color: #94a3b8;
-    }
-
-    /* Tela de 404 / Servidor Fora */
-    .error-state {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .badge-offline {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 16px;
-      background: rgba(239, 68, 68, 0.12);
-      border: 1px solid rgba(239, 68, 68, 0.28);
-      border-radius: 999px;
-      color: #f87171;
-      font-size: 13px;
-      font-weight: 600;
-      margin-bottom: 20px;
-    }
-
-    .badge-offline .dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #ef4444;
-      box-shadow: 0 0 10px #ef4444;
-      animation: pulseDot 1.5s infinite;
-    }
-
-    @keyframes pulseDot {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
-    }
-
-    /* Número 404 em Destaque */
-    .error-code {
-      font-size: 88px;
-      font-weight: 900;
-      line-height: 1;
-      letter-spacing: -3px;
-      background: linear-gradient(180deg, #f87171 0%, #dc2626 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 12px;
-      text-shadow: 0 10px 30px rgba(239, 68, 68, 0.25);
-    }
-
-    .error-title {
-      font-size: 22px;
-      font-weight: 700;
-      color: #ffffff;
-      margin-bottom: 12px;
-    }
-
-    .error-desc {
-      font-size: 15px;
-      color: #94a3b8;
-      line-height: 1.6;
-      margin-bottom: 28px;
-    }
-
-    /* Card do Responsável */
-    .contact-card {
-      width: 100%;
-      background: #1e293b;
-      border: 1px solid #334155;
-      border-radius: 20px;
-      padding: 16px 20px;
-      margin-bottom: 20px;
-      text-align: left;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
-
-    .contact-left {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .contact-avatar {
-      width: 46px;
-      height: 46px;
-      border-radius: 14px;
-      background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+    /* Ícone TalentFlow */
+    .logo-badge {
+      width: 58px;
+      height: 58px;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      border-radius: 18px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 800;
-      font-size: 16px;
-      color: #ffffff;
-      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
-      flex-shrink: 0;
+      margin: 0 auto 18px auto;
+      box-shadow: 0 8px 20px -4px rgba(16, 185, 129, 0.4);
     }
 
-    .contact-info h3 {
-      font-size: 15px;
+    .logo-badge svg {
+      width: 30px;
+      height: 30px;
+      fill: none;
+      stroke: #ffffff;
+      stroke-width: 2.4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    h1 {
+      font-size: 22px;
       font-weight: 700;
       color: #ffffff;
-      margin-bottom: 2px;
+      margin-bottom: 6px;
     }
 
-    .contact-info p {
-      font-size: 13px;
+    p.subtitle {
+      font-size: 14px;
       color: #94a3b8;
+      line-height: 1.5;
+      margin-bottom: 22px;
     }
 
-    .btn-contact {
-      background: #0284c7;
-      color: #ffffff;
-      padding: 11px 18px;
-      border-radius: 12px;
-      font-size: 13px;
-      font-weight: 700;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.2s;
-      flex-shrink: 0;
-    }
-
-    .btn-contact:hover {
-      background: #0369a1;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4);
-    }
-
-    /* Botão de Tentar Novamente */
-    .btn-retry {
+    /* Botão Principal de Acesso */
+    .btn-primary {
       width: 100%;
       background: #10b981;
       color: #022c22;
@@ -235,163 +85,252 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      transition: all 0.2s;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      box-shadow: 0 6px 16px rgba(16, 185, 129, 0.25);
     }
 
-    .btn-retry:hover {
+    .btn-primary:hover {
       background: #34d399;
       transform: translateY(-1px);
-      box-shadow: 0 6px 18px rgba(16, 185, 129, 0.3);
+      box-shadow: 0 8px 22px rgba(16, 185, 129, 0.35);
     }
 
-    .btn-retry svg {
-      width: 18px;
-      height: 18px;
-    }
-
-    .timer-text {
-      font-size: 13px;
+    /* Barra e aviso de redirecionamento */
+    .redirect-box {
+      margin-top: 14px;
+      font-size: 12px;
       color: #64748b;
-      margin-top: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .btn-cancel {
+      background: none;
+      border: none;
+      color: #38bdf8;
+      font-size: 12px;
+      cursor: pointer;
+      text-decoration: underline;
+      padding: 0;
+    }
+
+    /* Divisor */
+    .divider {
+      height: 1px;
+      background: #1e293b;
+      margin: 24px 0 20px 0;
+    }
+
+    /* Seção 404 / Servidor Fora do Ar */
+    .offline-section {
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid #334155;
+      border-radius: 18px;
+      padding: 16px;
+      text-align: left;
+    }
+
+    .offline-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .badge-404 {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 10px;
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.28);
+      border-radius: 999px;
+      color: #f87171;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .badge-404 .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #ef4444;
+    }
+
+    .offline-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #e2e8f0;
+    }
+
+    .offline-desc {
+      font-size: 12px;
+      color: #94a3b8;
+      line-height: 1.5;
+      margin-bottom: 14px;
+    }
+
+    /* Card do Responsável */
+    .contact-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 14px;
+      padding: 10px 14px;
+      gap: 10px;
+    }
+
+    .contact-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .contact-info h4 {
+      font-size: 13px;
+      font-weight: 600;
+      color: #f8fafc;
+    }
+
+    .contact-info p {
+      font-size: 11px;
+      color: #94a3b8;
+    }
+
+    .btn-contact {
+      background: #0284c7;
+      color: #ffffff;
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+
+    .btn-contact:hover {
+      background: #0369a1;
+      transform: translateY(-1px);
     }
   </style>
 </head>
 <body>
 
-  <div class="card">
-    <!-- Estado 1: Verificando Conexão -->
-    <div id="loading-state" class="loading-state">
-      <div class="spinner"></div>
-      <h2 class="loading-title">Conectando ao TalentFlow</h2>
-      <p class="loading-text">Verificando disponibilidade do servidor...</p>
+  <div class="container">
+    <!-- Ícone e Título -->
+    <div class="logo-badge">
+      <svg viewBox="0 0 24 24">
+        <polygon points="12 2 19 21 12 17 5 21 12 2"></polygon>
+      </svg>
     </div>
 
-    <!-- Estado 2: 404 - Servidor Fora do Ar -->
-    <div id="error-state" class="error-state">
-      <div class="badge-offline">
-        <span class="dot"></span>
-        Servidor Fora do Ar
+    <h1>TalentFlow</h1>
+    <p class="subtitle">Plataforma Operacional de Logística & Atração</p>
+
+    <!-- Botão de Acesso Direto (Sem disparo de rede local oculta) -->
+    <a id="btn-enter" href="https://talentflow.tail5f8db5.ts.net/" class="btn-primary">
+      <span>Entrar no TalentFlow</span>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+        <polyline points="12 5 19 12 12 19"></polyline>
+      </svg>
+    </a>
+
+    <!-- Aviso de Redirecionamento Automático -->
+    <div id="redirect-info" class="redirect-box">
+      <span>Redirecionando em <strong id="countdown-num">3</strong>s...</span>
+      <button class="btn-cancel" onclick="cancelRedirect()">Pausar</button>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Bloco de Ajuda / Caso o servidor esteja fora (404) -->
+    <div class="offline-section">
+      <div class="offline-header">
+        <span class="offline-title">O servidor não abriu?</span>
+        <span class="badge-404">
+          <span class="dot"></span>
+          404 / Indisponível
+        </span>
       </div>
 
-      <div class="error-code">404</div>
-      <h1 class="error-title">Servidor Indisponível</h1>
-      <p class="error-desc">
-        Não foi possível conectar ao TalentFlow no momento. Por favor, aguarde alguns instantes enquanto o serviço é reestabelecido ou entre em contato com o responsável:
+      <p class="offline-desc">
+        Se o sistema não carregar ou indicar conexão recusada, o servidor seguro pode estar temporariamente fora do ar. Por favor, aguarde alguns minutos ou fale com o responsável:
       </p>
 
-      <!-- Card de Contato -->
       <div class="contact-card">
         <div class="contact-left">
-          <div class="contact-avatar">DG</div>
+          <div class="avatar">DG</div>
           <div class="contact-info">
-            <h3>Danilo Gregorio Bianco</h3>
+            <h4>Danilo Gregorio Bianco</h4>
             <p>Responsável Técnico</p>
           </div>
         </div>
         <a href="https://biancodanilo.github.io/danilo/" target="_blank" rel="noopener noreferrer" class="btn-contact">
           <span>Contato</span>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
             <polyline points="15 3 21 3 21 9"></polyline>
             <line x1="10" y1="14" x2="21" y2="3"></line>
           </svg>
         </a>
       </div>
-
-      <!-- Botão Tentar Novamente -->
-      <button class="btn-retry" onclick="retryCheck()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="23 4 23 10 17 10"></polyline>
-          <polyline points="1 20 1 14 7 14"></polyline>
-          <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
-        </svg>
-        Tentar Conectar Novamente
-      </button>
-
-      <div class="timer-text">
-        Nova tentativa automática em <span id="timer-sec">20</span>s...
-      </div>
     </div>
   </div>
 
   <script>
     const TARGET_URL = 'https://talentflow.tail5f8db5.ts.net/';
-    const HEALTH_URL = 'https://talentflow.tail5f8db5.ts.net/api/health';
-    const TIMEOUT_MS = 3500;
-    let countdownInterval = null;
+    let timeLeft = 3;
+    let timer = null;
 
-    async function checkServer() {
-      const loadingState = document.getElementById('loading-state');
-      const errorState = document.getElementById('error-state');
+    function startTimer() {
+      const countdownEl = document.getElementById('countdown-num');
+      timer = setInterval(() => {
+        timeLeft--;
+        if (countdownEl) countdownEl.textContent = timeLeft;
 
-      loadingState.style.display = 'flex';
-      errorState.style.display = 'none';
-      clearInterval(countdownInterval);
-
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), TIMEOUT_MS);
-
-      try {
-        const response = await fetch(HEALTH_URL, {
-          method: 'GET',
-          mode: 'cors',
-          cache: 'no-store',
-          signal: controller.signal
-        });
-
-        clearTimeout(timeoutId);
-
-        if (response.ok) {
-          window.location.replace(TARGET_URL);
-          return;
-        }
-      } catch (err) {
-        try {
-          await fetch(TARGET_URL, {
-            method: 'HEAD',
-            mode: 'no-cors',
-            cache: 'no-store',
-            signal: controller.signal
-          });
-          clearTimeout(timeoutId);
-          window.location.replace(TARGET_URL);
-          return;
-        } catch (_) {}
-      }
-
-      clearTimeout(timeoutId);
-      show404();
-    }
-
-    function show404() {
-      document.getElementById('loading-state').style.display = 'none';
-      document.getElementById('error-state').style.display = 'flex';
-
-      startCountdown(20);
-    }
-
-    function startCountdown(seconds) {
-      clearInterval(countdownInterval);
-      let remaining = seconds;
-      const timerSec = document.getElementById('timer-sec');
-      if (timerSec) timerSec.textContent = remaining;
-
-      countdownInterval = setInterval(() => {
-        remaining -= 1;
-        if (timerSec) timerSec.textContent = remaining;
-
-        if (remaining <= 0) {
-          clearInterval(countdownInterval);
-          checkServer();
+        if (timeLeft <= 0) {
+          clearInterval(timer);
+          // Redirecionamento padrão por navegação direta (não dispara aviso de rede privada PNA)
+          window.location.href = TARGET_URL;
         }
       }, 1000);
     }
 
-    function retryCheck() {
-      checkServer();
+    function cancelRedirect() {
+      clearInterval(timer);
+      const box = document.getElementById('redirect-info');
+      if (box) {
+        box.innerHTML = '<span style="color:#94a3b8;">Redirecionamento automático pausado. Clique no botão acima para acessar.</span>';
+      }
     }
 
-    window.addEventListener('DOMContentLoaded', checkServer);
+    // Inicia a contagem suave
+    window.addEventListener('DOMContentLoaded', startTimer);
   </script>
 </body>
 </html>
