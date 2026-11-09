@@ -3,231 +3,282 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TalentFlow - Acesso ao Sistema</title>
+  <title>TalentFlow - Portal de Acesso & Status do Servidor</title>
   <style>
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     }
 
     body {
       background-color: #0b1120;
-      color: #f8fafc;
+      color: #f1f5f9;
       min-height: 100vh;
       display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 32px 20px;
     }
 
-    .container {
+    /* Fundo sutil com gradiente amplo */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
       width: 100%;
-      max-width: 440px;
-      background: #0f172a;
-      border: 1px solid #1e293b;
-      border-radius: 24px;
-      padding: 32px 26px;
-      box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
-      text-align: center;
+      height: 100%;
+      background: radial-gradient(circle at 50% 10%, rgba(16, 185, 129, 0.08), transparent 60%),
+                  radial-gradient(circle at 90% 90%, rgba(56, 189, 248, 0.05), transparent 60%);
+      pointer-events: none;
+      z-index: 0;
     }
 
-    /* Ícone TalentFlow */
-    .logo-badge {
-      width: 58px;
-      height: 58px;
+    .wrapper {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    /* Cabeçalho Superior */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 24px;
+      border-bottom: 1px solid #1e293b;
+      margin-bottom: 36px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-logo {
+      width: 44px;
+      height: 44px;
       background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-      border-radius: 18px;
+      border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 0 auto 18px auto;
-      box-shadow: 0 8px 20px -4px rgba(16, 185, 129, 0.4);
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
     }
 
-    .logo-badge svg {
-      width: 30px;
-      height: 30px;
+    .brand-logo svg {
+      width: 24px;
+      height: 24px;
       fill: none;
       stroke: #ffffff;
-      stroke-width: 2.4;
+      stroke-width: 2.5;
       stroke-linecap: round;
       stroke-linejoin: round;
     }
 
-    h1 {
-      font-size: 22px;
-      font-weight: 700;
+    .brand-text h1 {
+      font-size: 20px;
+      font-weight: 800;
       color: #ffffff;
-      margin-bottom: 6px;
+      letter-spacing: -0.3px;
     }
 
-    p.subtitle {
-      font-size: 14px;
+    .brand-text p {
+      font-size: 13px;
       color: #94a3b8;
-      line-height: 1.5;
-      margin-bottom: 22px;
     }
 
-    /* Botão Principal de Acesso */
-    .btn-primary {
-      width: 100%;
-      background: #10b981;
-      color: #022c22;
-      border: none;
-      padding: 14px 20px;
-      border-radius: 14px;
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
+    .status-pill {
       display: inline-flex;
       align-items: center;
-      justify-content: center;
       gap: 8px;
+      padding: 6px 14px;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      border-radius: 999px;
+      color: #34d399;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .status-pill .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 8px #10b981;
+    }
+
+    /* Grid Principal Informativo */
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+
+    @media (max-width: 768px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Card 1: Acesso */
+    .card-access {
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: 20px;
+      padding: 30px 26px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+    }
+
+    .card-access h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 10px;
+    }
+
+    .card-access p {
+      font-size: 14px;
+      color: #94a3b8;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .btn-enter {
+      background: #10b981;
+      color: #022c22;
+      padding: 16px 24px;
+      border-radius: 14px;
+      font-size: 16px;
+      font-weight: 800;
       text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
       transition: all 0.2s ease;
-      box-shadow: 0 6px 16px rgba(16, 185, 129, 0.25);
+      box-shadow: 0 6px 18px rgba(16, 185, 129, 0.3);
     }
 
-    .btn-primary:hover {
+    .btn-enter:hover {
       background: #34d399;
-      transform: translateY(-1px);
-      box-shadow: 0 8px 22px rgba(16, 185, 129, 0.35);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(16, 185, 129, 0.4);
     }
 
-    /* Barra e aviso de redirecionamento */
-    .redirect-box {
+    .access-notice {
       margin-top: 14px;
       font-size: 12px;
       color: #64748b;
+      text-align: center;
+    }
+
+    /* Card 2: 404 / Servidor Indisponível */
+    .card-offline {
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      border-radius: 20px;
+      padding: 30px 26px;
       display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-    }
-
-    .btn-cancel {
-      background: none;
-      border: none;
-      color: #38bdf8;
-      font-size: 12px;
-      cursor: pointer;
-      text-decoration: underline;
-      padding: 0;
-    }
-
-    /* Divisor */
-    .divider {
-      height: 1px;
-      background: #1e293b;
-      margin: 24px 0 20px 0;
-    }
-
-    /* Seção 404 / Servidor Fora do Ar */
-    .offline-section {
-      background: rgba(15, 23, 42, 0.8);
-      border: 1px solid #334155;
-      border-radius: 18px;
-      padding: 16px;
-      text-align: left;
-    }
-
-    .offline-header {
-      display: flex;
-      align-items: center;
+      flex-direction: column;
       justify-content: space-between;
-      margin-bottom: 8px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
     }
 
-    .badge-404 {
+    .offline-tag {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 3px 10px;
-      background: rgba(239, 68, 68, 0.12);
-      border: 1px solid rgba(239, 68, 68, 0.28);
+      padding: 4px 12px;
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.35);
       border-radius: 999px;
       color: #f87171;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-    }
-
-    .badge-404 .dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: #ef4444;
-    }
-
-    .offline-title {
-      font-size: 13px;
-      font-weight: 600;
-      color: #e2e8f0;
-    }
-
-    .offline-desc {
       font-size: 12px;
-      color: #94a3b8;
-      line-height: 1.5;
+      font-weight: 700;
       margin-bottom: 14px;
+      width: fit-content;
     }
 
-    /* Card do Responsável */
-    .contact-card {
+    .card-offline h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 10px;
+    }
+
+    .card-offline p {
+      font-size: 14px;
+      color: #94a3b8;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    /* Card de Contato Danilo */
+    .contact-box {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 16px;
+      padding: 16px 18px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: #1e293b;
-      border: 1px solid #334155;
-      border-radius: 14px;
-      padding: 10px 14px;
-      gap: 10px;
+      gap: 12px;
     }
 
     .contact-left {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
     }
 
     .avatar {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
       background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
       color: #ffffff;
-      font-size: 13px;
-      font-weight: 700;
+      font-size: 15px;
+      font-weight: 800;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
+      box-shadow: 0 4px 10px rgba(2, 132, 199, 0.3);
     }
 
-    .contact-info h4 {
-      font-size: 13px;
-      font-weight: 600;
-      color: #f8fafc;
+    .contact-info h3 {
+      font-size: 14px;
+      font-weight: 700;
+      color: #ffffff;
     }
 
     .contact-info p {
-      font-size: 11px;
+      font-size: 12px;
       color: #94a3b8;
     }
 
     .btn-contact {
       background: #0284c7;
       color: #ffffff;
-      padding: 8px 14px;
-      border-radius: 10px;
-      font-size: 12px;
-      font-weight: 600;
+      padding: 10px 18px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 700;
       text-decoration: none;
       display: inline-flex;
       align-items: center;
-      gap: 4px;
+      gap: 6px;
       transition: all 0.2s;
       flex-shrink: 0;
     }
@@ -236,101 +287,177 @@
       background: #0369a1;
       transform: translateY(-1px);
     }
+
+    /* Seção Informativa Inferior Ampla */
+    .info-banner {
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: 20px;
+      padding: 24px 28px;
+      margin-top: 8px;
+    }
+
+    .info-banner h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #f8fafc;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .info-banner h3 svg {
+      color: #38bdf8;
+      width: 18px;
+      height: 18px;
+    }
+
+    .info-banner ul {
+      list-style: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px 24px;
+      margin-top: 14px;
+    }
+
+    @media (max-width: 640px) {
+      .info-banner ul {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .info-banner li {
+      font-size: 13px;
+      color: #94a3b8;
+      line-height: 1.5;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .info-banner li::before {
+      content: "•";
+      color: #10b981;
+      font-weight: bold;
+      font-size: 16px;
+      line-height: 1;
+    }
+
+    /* Rodapé */
+    footer {
+      border-top: 1px solid #1e293b;
+      padding-top: 20px;
+      margin-top: 36px;
+      text-align: center;
+      font-size: 12px;
+      color: #64748b;
+    }
   </style>
 </head>
 <body>
 
-  <div class="container">
-    <!-- Ícone e Título -->
-    <div class="logo-badge">
-      <svg viewBox="0 0 24 24">
-        <polygon points="12 2 19 21 12 17 5 21 12 2"></polygon>
-      </svg>
-    </div>
-
-    <h1>TalentFlow</h1>
-    <p class="subtitle">Plataforma Operacional de Logística & Atração</p>
-
-    <!-- Botão de Acesso Direto (Sem disparo de rede local oculta) -->
-    <a id="btn-enter" href="https://talentflow.tail5f8db5.ts.net/" class="btn-primary">
-      <span>Entrar no TalentFlow</span>
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="5" y1="12" x2="19" y2="12"></line>
-        <polyline points="12 5 19 12 12 19"></polyline>
-      </svg>
-    </a>
-
-    <!-- Aviso de Redirecionamento Automático -->
-    <div id="redirect-info" class="redirect-box">
-      <span>Redirecionando em <strong id="countdown-num">3</strong>s...</span>
-      <button class="btn-cancel" onclick="cancelRedirect()">Pausar</button>
-    </div>
-
-    <div class="divider"></div>
-
-    <!-- Bloco de Ajuda / Caso o servidor esteja fora (404) -->
-    <div class="offline-section">
-      <div class="offline-header">
-        <span class="offline-title">O servidor não abriu?</span>
-        <span class="badge-404">
-          <span class="dot"></span>
-          404 / Indisponível
-        </span>
-      </div>
-
-      <p class="offline-desc">
-        Se o sistema não carregar ou indicar conexão recusada, o servidor seguro pode estar temporariamente fora do ar. Por favor, aguarde alguns minutos ou fale com o responsável:
-      </p>
-
-      <div class="contact-card">
-        <div class="contact-left">
-          <div class="avatar">DG</div>
-          <div class="contact-info">
-            <h4>Danilo Gregorio Bianco</h4>
-            <p>Responsável Técnico</p>
-          </div>
-        </div>
-        <a href="https://biancodanilo.github.io/danilo/" target="_blank" rel="noopener noreferrer" class="btn-contact">
-          <span>Contato</span>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-            <polyline points="15 3 21 3 21 9"></polyline>
-            <line x1="10" y1="14" x2="21" y2="3"></line>
+  <div class="wrapper">
+    <!-- Cabeçalho -->
+    <header>
+      <div class="brand">
+        <div class="brand-logo">
+          <svg viewBox="0 0 24 24">
+            <polygon points="12 2 19 21 12 17 5 21 12 2"></polygon>
           </svg>
-        </a>
+        </div>
+        <div class="brand-text">
+          <h1>TalentFlow</h1>
+          <p>Portal de Acesso & Monitoramento</p>
+        </div>
+      </div>
+
+      <div class="status-pill">
+        <span class="dot"></span>
+        Rede Segura Ativa
+      </div>
+    </header>
+
+    <!-- Conteúdo Principal em Duas Colunas Amplas -->
+    <div class="grid">
+      <!-- Coluna 1: Acesso ao Sistema -->
+      <div class="card-access">
+        <div>
+          <h2>Acesso à Plataforma</h2>
+          <p>
+            O TalentFlow opera sob canal seguro com criptografia de ponta a ponta e sincronização com banco de dados em tempo real.
+          </p>
+        </div>
+
+        <div>
+          <!-- Link Direto por Clique (NUNCA redireciona automaticamente para não travar o navegador) -->
+          <a href="https://talentflow.tail5f8db5.ts.net/" class="btn-enter" target="_blank" rel="noopener noreferrer">
+            <span>Entrar no TalentFlow</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+          <p class="access-notice">Clique para abrir a plataforma em nova aba segura.</p>
+        </div>
+      </div>
+
+      <!-- Coluna 2: 404 / Servidor Fora do Ar -->
+      <div class="card-offline">
+        <div>
+          <div class="offline-tag">
+            <span>404 • Servidor Indisponível</span>
+          </div>
+          <h2>Servidor Fora do Ar?</h2>
+          <p>
+            Se a página não abrir ou apresentar mensagem de "conexão expirada", o servidor seguro pode estar offline ou em manutenção. Por favor, aguarde alguns minutos ou contate diretamente o desenvolvedor:
+          </p>
+        </div>
+
+        <!-- Card de Contato Direto Danilo Gregorio Bianco -->
+        <div class="contact-box">
+          <div class="contact-left">
+            <div class="avatar">DG</div>
+            <div class="contact-info">
+              <h3>Danilo Gregorio Bianco</h3>
+              <p>Desenvolvedor Responsável</p>
+            </div>
+          </div>
+          <a href="https://biancodanilo.github.io/danilo/" target="_blank" rel="noopener noreferrer" class="btn-contact">
+            <span>Contato</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <line x1="10" y1="14" x2="21" y2="3"></line>
+            </svg>
+          </a>
+        </div>
       </div>
     </div>
+
+    <!-- Banner Informativo Completo -->
+    <div class="info-banner">
+      <h3>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="16" x2="12" y2="12"></line>
+          <line x1="12" y1="8" x2="12.01" y2="8"></line>
+        </svg>
+        Orientações de Conexão & Diagnóstico:
+      </h3>
+      <ul>
+        <li><strong>Rede Tailscale:</strong> Certifique-se de que o nó <em>talentflow</em> está conectado e autenticado.</li>
+        <li><strong>Sem Redirecionamento Automático:</strong> Você nunca será jogado para a tela de erro padrão do navegador.</li>
+        <li><strong>Banco de Dados:</strong> O sistema utiliza MariaDB centralizado com integridade relacional.</li>
+        <li><strong>Aplicativo Mobile:</strong> Candidatos utilizam o aplicativo Flutter conectado à mesma infraestrutura.</li>
+      </ul>
+    </div>
+
+    <!-- Rodapé -->
+    <footer>
+      TalentFlow &copy; 2026 • Todos os direitos reservados • Ambiente de Triagem Operacional
+    </footer>
   </div>
 
-  <script>
-    const TARGET_URL = 'https://talentflow.tail5f8db5.ts.net/';
-    let timeLeft = 3;
-    let timer = null;
-
-    function startTimer() {
-      const countdownEl = document.getElementById('countdown-num');
-      timer = setInterval(() => {
-        timeLeft--;
-        if (countdownEl) countdownEl.textContent = timeLeft;
-
-        if (timeLeft <= 0) {
-          clearInterval(timer);
-          // Redirecionamento padrão por navegação direta (não dispara aviso de rede privada PNA)
-          window.location.href = TARGET_URL;
-        }
-      }, 1000);
-    }
-
-    function cancelRedirect() {
-      clearInterval(timer);
-      const box = document.getElementById('redirect-info');
-      if (box) {
-        box.innerHTML = '<span style="color:#94a3b8;">Redirecionamento automático pausado. Clique no botão acima para acessar.</span>';
-      }
-    }
-
-    // Inicia a contagem suave
-    window.addEventListener('DOMContentLoaded', startTimer);
-  </script>
 </body>
 </html>
