@@ -64,17 +64,6 @@ export default function Sidebar({ activeTab, setActiveTab, onOpenNewJob, onLogou
 
       {/* Info Card no rodapé do Sidebar */}
       <div className="mt-8 space-y-2">
-        {onGoToAdmin && (
-          <button
-            onClick={onGoToAdmin}
-            className="w-full py-2.5 px-3 rounded-xl bg-purple-950/40 hover:bg-purple-900/50 text-purple-300 hover:text-white border border-purple-800/60 text-[11px] font-bold transition-all flex items-center justify-center space-x-2 shadow-sm"
-            title="Ir para o Console Master de Administração"
-          >
-            <Shield className="w-3.5 h-3.5 text-purple-400" />
-            <span>Console Admin (/admin)</span>
-          </button>
-        )}
-
         <div className="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 text-[11px] space-y-1.5">
           <div className="flex items-center space-x-1.5 text-emerald-400 font-bold">
             <Sparkles className="w-3.5 h-3.5" />

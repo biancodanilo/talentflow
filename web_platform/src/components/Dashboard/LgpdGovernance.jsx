@@ -13,7 +13,7 @@ import {
 } from 'lucide-react';
 
 export default function LgpdGovernance() {
-  const [activeSubTab, setActiveSubTab] = useState('ged'); // 'ged' | 'backup' | 'audit'
+  const [activeSubTab, setActiveSubTab] = useState('ged'); // 'ged' | 'audit'
   const [documents, setDocuments] = useState(() => {
     const saved = localStorage.getItem('tf_ged_documents');
     return saved ? JSON.parse(saved) : initialDocuments;
@@ -361,21 +361,21 @@ export default function LgpdGovernance() {
             <span>Gestão Eletrônica de Documentos (GED) & Governança LGPD</span>
           </div>
           <h2 className="text-2xl font-black text-white font-['Plus_Jakarta_Sans'] mt-0.5">
-            Controle de Termos, Assinaturas & Backup de Dados
+            Controle de Termos, Assinaturas & Conformidade LGPD
           </h2>
           <p className="text-xs text-slate-400 mt-1">
-            Gerencie quem lançou os termos, acompanhe o andamento de assinaturas, registre o aceite digital e extraia backups completos.
+            Gerencie quem lançou os termos, acompanhe o andamento de assinaturas e registre o aceite digital com supervisão humana Art. 20.
           </p>
         </div>
 
         <div className="flex flex-wrap items-center gap-2 shrink-0">
           <button
-            onClick={handleExportFullBackupJson}
-            className="flex items-center space-x-1.5 px-3.5 py-2.5 rounded-xl text-xs font-bold bg-slate-900 hover:bg-slate-800 text-cyan-400 border border-cyan-500/30 transition-all"
-            title="Extrair Backup Completo em JSON"
+            onClick={handleExportCsvReport}
+            className="flex items-center space-x-1.5 px-3.5 py-2.5 rounded-xl text-xs font-bold bg-slate-900 hover:bg-slate-800 text-emerald-400 border border-emerald-500/30 transition-all"
+            title="Exportar Relatório em Planilha CSV"
           >
-            <Download className="w-3.5 h-3.5" />
-            <span>Backup (.JSON)</span>
+            <FileSpreadsheet className="w-3.5 h-3.5" />
+            <span>Relatório (.CSV)</span>
           </button>
 
           <button
@@ -433,14 +433,14 @@ export default function LgpdGovernance() {
 
         <div className="p-5 rounded-2xl bg-slate-900/80 border border-slate-800">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-bold text-slate-400">Último Backup Extraído</span>
+            <span className="text-xs font-bold text-slate-400">Conformidade & Segurança</span>
             <div className="p-2 rounded-xl bg-cyan-500/10 text-cyan-400">
-              <Database className="w-4 h-4" />
+              <ShieldCheck className="w-4 h-4" />
             </div>
           </div>
-          <p className="text-sm font-mono font-bold text-cyan-400 mt-1">{lastBackupDate}</p>
+          <p className="text-sm font-mono font-bold text-cyan-400 mt-1">AES-256 / TLS 1.3</p>
           <p className="text-[11px] text-slate-400 mt-2">
-            Snapshot seguro JSON / CSV ativo
+            100% Criptografado & Auditável
           </p>
         </div>
       </div>
@@ -457,18 +457,6 @@ export default function LgpdGovernance() {
         >
           <FileText className="w-4 h-4" />
           <span>Gestão Eletrônica de Documentos & Termos ({documents.length})</span>
-        </button>
-
-        <button
-          onClick={() => setActiveSubTab('backup')}
-          className={`flex items-center space-x-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all shrink-0 ${
-            activeSubTab === 'backup'
-              ? 'bg-emerald-500 text-slate-950 shadow-lg shadow-emerald-500/20'
-              : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
-          }`}
-        >
-          <Database className="w-4 h-4" />
-          <span>Extrair Dados (Backup & Restore)</span>
         </button>
 
         <button
@@ -694,110 +682,7 @@ export default function LgpdGovernance() {
         </div>
       )}
 
-      {/* SUB-ABA 2: EXTRAIR DADOS (BACKUP & RESTORE) */}
-      {activeSubTab === 'backup' && (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Card Exportação / Backup */}
-          <div className="p-6 rounded-3xl bg-slate-900/90 border border-slate-800 space-y-4">
-            <div className="flex items-center space-x-3">
-              <div className="p-3 rounded-2xl bg-emerald-500/15 text-emerald-400">
-                <Download className="w-6 h-6" />
-              </div>
-              <div>
-                <h3 className="text-lg font-bold text-white font-['Plus_Jakarta_Sans']">
-                  Extrair Dados & Gerar Backup Completo
-                </h3>
-                <p className="text-xs text-slate-400">
-                  Exporte todas as informações de vagas, candidatos, empresas e termos GED.
-                </p>
-              </div>
-            </div>
-
-            <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-2 text-xs text-slate-300">
-              <p className="font-bold text-emerald-400">O que está incluído no pacote de extração:</p>
-              <ul className="list-disc list-inside space-y-1 text-slate-400">
-                <li>Termos e Documentos Eletrônicos (GED) + Lista de Aceites ({documents.length} registros)</li>
-                <li>Trilha de Auditoria LGPD & Revisões Humanas ({logs.length} eventos)</li>
-                <li>Banco de Vagas Operacionais e Candidatos em Triagem</li>
-                <li>Cadastro de Empresas Parceiras e Recrutadores</li>
-              </ul>
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-3 pt-2">
-              <button
-                onClick={handleExportFullBackupJson}
-                className="flex-1 py-3 px-4 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs flex items-center justify-center space-x-2 shadow-lg shadow-emerald-500/20 transition-all"
-              >
-                <Download className="w-4 h-4" />
-                <span>Baixar Backup Completo (.JSON)</span>
-              </button>
-
-              <button
-                onClick={handleExportCsvReport}
-                className="flex-1 py-3 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs flex items-center justify-center space-x-2 border border-slate-700 transition-all"
-              >
-                <FileSpreadsheet className="w-4 h-4 text-emerald-400" />
-                <span>Extrair Planilha Excel (.CSV)</span>
-              </button>
-            </div>
-          </div>
-
-          {/* Card Restore / Importação */}
-          <div className="p-6 rounded-3xl bg-slate-900/90 border border-slate-800 space-y-4">
-            <div className="flex items-center space-x-3">
-              <div className="p-3 rounded-2xl bg-cyan-500/15 text-cyan-400">
-                <Upload className="w-6 h-6" />
-              </div>
-              <div>
-                <h3 className="text-lg font-bold text-white font-['Plus_Jakarta_Sans']">
-                  Restaurar Dados (Restore de Sistema)
-                </h3>
-                <p className="text-xs text-slate-400">
-                  Importe um arquivo de backup JSON anterior ou restaure o ponto de segurança.
-                </p>
-              </div>
-            </div>
-
-            <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-2 text-xs">
-              <div className="flex items-center justify-between">
-                <span className="text-slate-400">Último ponto de restauração salvo:</span>
-                <span className="font-mono font-bold text-cyan-400">{lastBackupDate}</span>
-              </div>
-              <p className="text-[11px] text-slate-500">
-                O processo de Restore valida automaticamente a integridade dos Termos GED e preserva os logs obrigatórios da ANPD.
-              </p>
-            </div>
-
-            <input
-              type="file"
-              accept=".json"
-              ref={fileInputRef}
-              onChange={handleImportBackupFile}
-              className="hidden"
-            />
-
-            <div className="flex flex-col sm:flex-row gap-3 pt-2">
-              <button
-                onClick={() => fileInputRef.current?.click()}
-                className="flex-1 py-3 px-4 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs flex items-center justify-center space-x-2 shadow-lg shadow-cyan-500/20 transition-all"
-              >
-                <Upload className="w-4 h-4" />
-                <span>Carregar Arquivo de Backup (.JSON)</span>
-              </button>
-
-              <button
-                onClick={handleRestoreDefaults}
-                className="py-3 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-xs flex items-center justify-center space-x-1.5 border border-slate-700 transition-all"
-              >
-                <RefreshCw className="w-3.5 h-3.5" />
-                <span>Restaurar Padrão</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* SUB-ABA 3: AUDITORIA LGPD */}
+      {/* SUB-ABA 2: AUDITORIA LGPD */}
       {activeSubTab === 'audit' && (
         <div className="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 space-y-4">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-4 border-b border-slate-800">

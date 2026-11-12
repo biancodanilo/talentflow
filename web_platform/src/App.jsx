@@ -187,7 +187,6 @@ export default function App() {
             <RHLogin
               onLogin={() => setIsRhAuthenticated(true)}
               onBackToSite={() => navigateTo('/')}
-              onGoToAdmin={() => navigateTo('/admin')}
               theme={theme}
             />
           ) : (
@@ -198,11 +197,41 @@ export default function App() {
                 setActiveTab={setDashboardTab}
                 onOpenNewJob={() => setIsNewJobOpen(true)}
                 onLogout={() => setIsRhAuthenticated(false)}
-                onGoToAdmin={() => navigateTo('/admin')}
               />
 
               {/* Dashboard Content Container */}
-              <div className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto max-w-7xl">
+              <div className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto max-w-7xl space-y-6">
+                {/* Banner de Empresa Contratante Ativa */}
+                <div className="p-4 rounded-2xl bg-gradient-to-r from-slate-900 via-slate-900 to-emerald-950/40 border border-emerald-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-sm">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-base border border-emerald-500/40">
+                      MS
+                    </div>
+                    <div>
+                      <div className="flex items-center space-x-2">
+                        <span className="text-xs font-bold text-white">Mercado Sul Distribuidora S.A.</span>
+                        <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
+                          Empresa Contratante
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-slate-400">
+                        CNPJ: 12.345.678/0001-90 • Hub Jaú - SP • Operação Logística & Armazenagem
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center space-x-2">
+                    <span className="px-2.5 py-1 rounded-xl bg-indigo-500/15 text-indigo-300 border border-indigo-500/30 text-[11px] font-bold">
+                      Acesso: Nível 2 • Gerente de RH
+                    </span>
+                    <button
+                      onClick={() => setIsNewJobOpen(true)}
+                      className="px-3 py-1.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs transition-all flex items-center space-x-1"
+                    >
+                      <span>Publicar Vaga</span>
+                    </button>
+                  </div>
+                </div>
                 {dashboardTab === 'overview' && (
                   <DashboardOverview
                     setActiveTab={setDashboardTab}

@@ -148,14 +148,6 @@ export default function RHLogin({ onLogin, onBackToSite, onGoToAdmin, theme }) {
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>Voltar ao Site</span>
           </button>
-
-          <button
-            onClick={onGoToAdmin}
-            className="inline-flex items-center space-x-1.5 text-xs font-semibold text-purple-400 hover:text-purple-300 transition-colors"
-          >
-            <Lock className="w-3 h-3" />
-            <span>Ir para Painel Admin (/admin)</span>
-          </button>
         </div>
 
         {/* Mode Switcher Tabs: Login | Cadastrar Recrutador | Cadastrar Empresa */}

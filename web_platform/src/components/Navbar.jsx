@@ -143,34 +143,11 @@ export default function Navbar({ currentRoute = 'public', onNavigate, theme, tog
                   <Users className="w-3.5 h-3.5 text-emerald-500" />
                   <span>Área do RH (/rh)</span>
                 </button>
-
-                {/* Botão Painel Admin */}
-                <button
-                  onClick={() => onNavigate('/admin')}
-                  className={`flex items-center space-x-2 px-4 py-2.5 text-xs font-bold rounded-xl shadow-sm transition-all ${
-                    isDark
-                      ? 'text-purple-200 hover:text-white bg-purple-950/40 hover:bg-purple-900/50 border border-purple-800/80 hover:border-purple-500'
-                      : 'text-purple-800 hover:text-purple-950 bg-purple-50 hover:bg-purple-100 border border-purple-200'
-                  }`}
-                  title="Acessar Controle de Usuários e Níveis (/admin)"
-                >
-                  <Shield className="w-3.5 h-3.5 text-purple-500" />
-                  <span>Painel Admin (/admin)</span>
-                </button>
               </div>
             )}
 
             {currentRoute === 'rh' && (
               <div className="flex items-center space-x-2">
-                <button
-                  onClick={() => onNavigate('/admin')}
-                  className="hidden sm:flex items-center space-x-1.5 px-3 py-2 text-xs font-semibold text-purple-300 hover:text-white bg-purple-950/40 border border-purple-800/60 rounded-xl transition-all"
-                  title="Ir para o Controle de Usuários"
-                >
-                  <Shield className="w-3.5 h-3.5 text-purple-400" />
-                  <span>Painel Admin (/admin)</span>
-                </button>
-
                 <button
                   onClick={() => onNavigate('/')}
                   className="flex items-center space-x-2 px-4 py-2.5 text-xs font-bold text-slate-950 bg-emerald-400 hover:bg-emerald-300 rounded-xl shadow-lg shadow-emerald-500/20 transition-all hover:scale-[1.02] active:scale-[0.98]"

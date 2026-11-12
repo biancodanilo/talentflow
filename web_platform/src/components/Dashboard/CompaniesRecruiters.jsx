@@ -423,8 +423,14 @@ export default function CompaniesRecruiters() {
                     className="w-11 h-11 rounded-2xl object-cover border border-slate-700 shadow-md"
                   />
                   <div>
-                    <span className="text-[10px] font-mono font-bold text-purple-400 bg-purple-500/10 px-2 py-0.5 rounded-md border border-purple-500/20">
-                      {rec.id} • {rec.accessLevel || 'RECRUTADOR'}
+                    <span className="text-[10px] font-mono font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-md border border-emerald-500/20">
+                      {rec.id} • {
+                        rec.accessLevel === 'SUPER_ADMIN' ? 'Nível 1 • Admin Geral' :
+                        rec.accessLevel === 'GERENTE_RH' ? 'Nível 2 • Gerente RH' :
+                        rec.accessLevel === 'RECRUTADOR' ? 'Nível 3 • Recrutador' :
+                        rec.accessLevel === 'ANALISTA_90DIAS' ? 'Nível 4 • Analista 90D' :
+                        'Nível 5 • Gestor / Consulta'
+                      }
                     </span>
                     <h3 className="text-base font-bold text-white mt-1">{rec.name}</h3>
                     <p className="text-xs text-slate-400">{rec.role}</p>
@@ -529,6 +535,20 @@ export default function CompaniesRecruiters() {
                 />
               </div>
 
+              <div>
+                <label className="block text-xs font-bold text-slate-300 mb-1">Nível de Acesso (RBAC) *</label>
+                <select
+                  value={recruiterForm.accessLevel || 'RECRUTADOR'}
+                  onChange={(e) => setRecruiterForm({ ...recruiterForm, accessLevel: e.target.value })}
+                  className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:border-emerald-500 font-semibold"
+                >
+                  <option value="GERENTE_RH">Nível 2: Gerente de RH & Operações (Cadastra usuários & aprova vagas)</option>
+                  <option value="RECRUTADOR">Nível 3: Recrutador Operacional (Vagas, WhatsApp Web & Matching)</option>
+                  <option value="ANALISTA_90DIAS">Nível 4: Analista de Retenção (Guardião dos 90 Dias)</option>
+                  <option value="GESTOR_LOJA">Nível 5: Líder de Turno / Gestor de Loja (Consulta & Feedback)</option>
+                </select>
+              </div>
+
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-bold text-slate-300 mb-1">CNPJ *</label>
@@ -566,6 +586,20 @@ export default function CompaniesRecruiters() {
                   onChange={(e) => setCompanyForm({ ...companyForm, sector: e.target.value })}
                   className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:border-emerald-500"
                 />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-300 mb-1">Nível de Acesso (RBAC) *</label>
+                <select
+                  value={recruiterForm.accessLevel || 'RECRUTADOR'}
+                  onChange={(e) => setRecruiterForm({ ...recruiterForm, accessLevel: e.target.value })}
+                  className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:border-emerald-500 font-semibold"
+                >
+                  <option value="GERENTE_RH">Nível 2: Gerente de RH & Operações (Cadastra usuários & aprova vagas)</option>
+                  <option value="RECRUTADOR">Nível 3: Recrutador Operacional (Vagas, WhatsApp Web & Matching)</option>
+                  <option value="ANALISTA_90DIAS">Nível 4: Analista de Retenção (Guardião dos 90 Dias)</option>
+                  <option value="GESTOR_LOJA">Nível 5: Líder de Turno / Gestor de Loja (Consulta & Feedback)</option>
+                </select>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
@@ -651,6 +685,20 @@ export default function CompaniesRecruiters() {
                   onChange={(e) => setRecruiterForm({ ...recruiterForm, email: e.target.value })}
                   className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:border-emerald-500"
                 />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-300 mb-1">Nível de Acesso (RBAC) *</label>
+                <select
+                  value={recruiterForm.accessLevel || 'RECRUTADOR'}
+                  onChange={(e) => setRecruiterForm({ ...recruiterForm, accessLevel: e.target.value })}
+                  className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:border-emerald-500 font-semibold"
+                >
+                  <option value="GERENTE_RH">Nível 2: Gerente de RH & Operações (Cadastra usuários & aprova vagas)</option>
+                  <option value="RECRUTADOR">Nível 3: Recrutador Operacional (Vagas, WhatsApp Web & Matching)</option>
+                  <option value="ANALISTA_90DIAS">Nível 4: Analista de Retenção (Guardião dos 90 Dias)</option>
+                  <option value="GESTOR_LOJA">Nível 5: Líder de Turno / Gestor de Loja (Consulta & Feedback)</option>
+                </select>
               </div>
 
               <div className="grid grid-cols-2 gap-3">

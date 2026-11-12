@@ -574,11 +574,11 @@ export default function UserManagement({ onLogout, onGoToRh, onBackToSite, theme
                   }`}>
                     <th className="py-4 px-4 w-1/4">Módulo do Sistema</th>
                     <th className="py-4 px-4 w-1/3">Ação Autorizada</th>
-                    <th className="py-4 px-2 text-center text-purple-400">Super Admin</th>
-                    <th className="py-4 px-2 text-center text-indigo-400">Gestor RH</th>
-                    <th className="py-4 px-2 text-center text-emerald-400">Recrutador</th>
-                    <th className="py-4 px-2 text-center text-amber-400">Auditor DPO</th>
-                    <th className="py-4 px-2 text-center text-cyan-400">Líder Turno</th>
+                    <th className="py-4 px-2 text-center text-purple-400">Nível 1 (Admin)</th>
+                    <th className="py-4 px-2 text-center text-indigo-400">Nível 2 (Gerente RH)</th>
+                    <th className="py-4 px-2 text-center text-emerald-400">Nível 3 (Recrutador)</th>
+                    <th className="py-4 px-2 text-center text-cyan-400">Nível 4 (Analista 90D)</th>
+                    <th className="py-4 px-2 text-center text-amber-400">Nível 5 (Gestor Loja)</th>
                   </tr>
                 </thead>
                 <tbody className={`divide-y ${isDark ? 'divide-slate-800' : 'divide-slate-100'}`}>
@@ -603,9 +603,9 @@ export default function UserManagement({ onLogout, onGoToRh, onBackToSite, theme
                         )}
                       </td>
 
-                      {/* Gestor RH */}
+                      {/* Gerente RH */}
                       <td className="py-3.5 px-2 text-center">
-                        {item.roles.GESTOR_RH ? (
+                        {item.roles.GERENTE_RH ? (
                           <span className="inline-flex p-1 rounded-md bg-indigo-500/20 text-indigo-400">
                             <Check className="w-3.5 h-3.5" />
                           </span>
@@ -629,10 +629,10 @@ export default function UserManagement({ onLogout, onGoToRh, onBackToSite, theme
                         )}
                       </td>
 
-                      {/* Auditor DPO */}
+                      {/* Analista 90 Dias */}
                       <td className="py-3.5 px-2 text-center">
-                        {item.roles.AUDITOR_DPO ? (
-                          <span className="inline-flex p-1 rounded-md bg-amber-500/20 text-amber-400">
+                        {item.roles.ANALISTA_90DIAS ? (
+                          <span className="inline-flex p-1 rounded-md bg-cyan-500/20 text-cyan-400">
                             <Check className="w-3.5 h-3.5" />
                           </span>
                         ) : (
@@ -642,10 +642,10 @@ export default function UserManagement({ onLogout, onGoToRh, onBackToSite, theme
                         )}
                       </td>
 
-                      {/* Líder Turno */}
+                      {/* Gestor Loja / Turno */}
                       <td className="py-3.5 px-2 text-center">
-                        {item.roles.LIDER_OPERACIONAL ? (
-                          <span className="inline-flex p-1 rounded-md bg-cyan-500/20 text-cyan-400">
+                        {item.roles.GESTOR_LOJA ? (
+                          <span className="inline-flex p-1 rounded-md bg-amber-500/20 text-amber-400">
                             <Check className="w-3.5 h-3.5" />
                           </span>
                         ) : (

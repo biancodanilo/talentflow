@@ -85,17 +85,6 @@ export default function Footer({ onGoToRh, onGoToAdmin, onGoToDashboard }) {
               <span>Acessar Área do RH (/rh)</span>
             </button>
 
-            {/* Botão Admin */}
-            {onGoToAdmin && (
-              <button
-                onClick={onGoToAdmin}
-                className="w-full py-2.5 px-4 rounded-xl bg-purple-950/40 hover:bg-purple-900/50 text-purple-300 hover:text-white font-bold text-xs border border-purple-800/80 hover:border-purple-500 transition-all flex items-center justify-center space-x-2 shadow-sm"
-              >
-                <Shield className="w-3.5 h-3.5 text-purple-400" />
-                <span>Console Admin (/admin)</span>
-              </button>
-            )}
-
             <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800 text-[10px] text-slate-400 space-y-1">
               <div className="flex items-center space-x-1 text-emerald-400 font-bold">
                 <ShieldCheck className="w-3.5 h-3.5" />

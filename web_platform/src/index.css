@@ -97,28 +97,63 @@
   border-color: #e2e8f0 !important;
 }
 
-.light .text-white {
-  color: #0f172a !important;
+.light .text-white:not(.preserve-dark):not(.preserve-dark *):not(.bg-emerald-600 *):not(.bg-emerald-500 *):not(button *) {
+  color: #0f172a;
 }
 
-.light .text-slate-100 {
-  color: #0f172a !important;
+.light .text-slate-100:not(.preserve-dark):not(.preserve-dark *) {
+  color: #0f172a;
 }
 
-.light .text-slate-200 {
-  color: #1e293b !important;
+.light .text-slate-200:not(.preserve-dark):not(.preserve-dark *) {
+  color: #1e293b;
 }
 
-.light .text-slate-300 {
-  color: #334155 !important;
+.light .text-slate-300:not(.preserve-dark):not(.preserve-dark *) {
+  color: #334155;
 }
 
-.light .text-slate-400 {
-  color: #64748b !important;
+.light .text-slate-400:not(.preserve-dark):not(.preserve-dark *) {
+  color: #64748b;
 }
 
-.light .text-slate-500 {
+.light .text-slate-500:not(.preserve-dark):not(.preserve-dark *) {
+  color: #94a3b8;
+}
+
+/* Regras para preservação explícita de contraste em cards escuros e badges */
+.preserve-dark {
+  background-color: #090d16 !important;
+  color: #f8fafc !important;
+  border-color: rgba(16, 185, 129, 0.3) !important;
+}
+
+.preserve-dark .text-white {
+  color: #ffffff !important;
+}
+
+.preserve-dark .text-slate-100 {
+  color: #f1f5f9 !important;
+}
+
+.preserve-dark .text-slate-200 {
+  color: #e2e8f0 !important;
+}
+
+.preserve-dark .text-slate-300 {
+  color: #cbd5e1 !important;
+}
+
+.preserve-dark .text-slate-400 {
   color: #94a3b8 !important;
+}
+
+.preserve-dark .text-emerald-400 {
+  color: #34d399 !important;
+}
+
+.preserve-dark .text-emerald-300 {
+  color: #6ee7b7 !important;
 }
 
 .light input,

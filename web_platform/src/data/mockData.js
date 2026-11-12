@@ -325,42 +325,52 @@ export const lgpdAuditLogs = [
 export const accessLevels = [
   {
     id: "SUPER_ADMIN",
-    title: "Super Admin",
-    description: "Acesso irrestrito a configurações do sistema, controle total de usuários, permissões e auditoria global.",
+    level: 1,
+    title: "Nível 1: Administrador Geral (Super Admin)",
+    shortTitle: "Nível 1: Administrador",
+    description: "Acesso master irrestrito via URL /admin. Gestão global do sistema, configurações de tenant, criação de gerentes e auditoria ANPD.",
     badgeColor: "bg-purple-500/15 text-purple-400 border-purple-500/30",
     iconName: "ShieldAlert",
     userCount: 2
   },
   {
-    id: "GESTOR_RH",
-    title: "Gestor de RH",
-    description: "Criação e aprovação de vagas, definição de orçamentos e salários, relatórios executivos de ROI e retenção.",
+    id: "GERENTE_RH",
+    level: 2,
+    title: "Nível 2: Gerente de RH & Operações",
+    shortTitle: "Nível 2: Gerente de RH",
+    description: "Gestão executiva da empresa contratante. Cadastra e gerencia novos usuários (recrutadores, analistas e líderes), aprova vagas e orçamentos.",
     badgeColor: "bg-indigo-500/15 text-indigo-400 border-indigo-500/30",
     iconName: "Briefcase",
     userCount: 4
   },
   {
     id: "RECRUTADOR",
-    title: "Recrutador Operacional",
-    description: "Triagem diária no WhatsApp, matching de candidatos, agendamento de entrevistas e aprovação prévia.",
+    level: 3,
+    title: "Nível 3: Recrutador Operacional",
+    shortTitle: "Nível 3: Recrutador",
+    description: "Criação de vagas, triagem rápida no WhatsApp Web, matching de candidatos por logística e agendamento de entrevistas.",
     badgeColor: "bg-emerald-500/15 text-emerald-400 border-emerald-500/30",
     iconName: "UserCheck",
     userCount: 8
   },
   {
-    id: "AUDITOR_DPO",
-    title: "Auditor / DPO (LGPD)",
-    description: "Acesso a logs de auditoria, solicitações de revisão humana (Art. 20), relatórios de conformidade da ANPD.",
-    badgeColor: "bg-amber-500/15 text-amber-400 border-amber-500/30",
-    iconName: "FileCheck",
-    userCount: 2
-  },
-  {
-    id: "LIDER_OPERACIONAL",
-    title: "Líder de Turno / Encarregado",
-    description: "Acompanhamento do Guardião dos 90 Dias, check-ins de adaptação de novos contratados e reporte de ausências.",
+    id: "ANALISTA_90DIAS",
+    level: 4,
+    title: "Nível 4: Analista de Retenção (Guardião 90 Dias)",
+    shortTitle: "Nível 4: Analista 90 Dias",
+    description: "Acompanhamento ativo dos marcos dos primeiros 90 dias (dias 1, 15, 30, 60 e 90), controle de evasão e check-ins de adaptação.",
     badgeColor: "bg-cyan-500/15 text-cyan-400 border-cyan-500/30",
     iconName: "Clock",
+    userCount: 5
+  },
+  {
+    id: "GESTOR_LOJA",
+    level: 5,
+    title: "Nível 5: Líder de Turno / Gestor de Loja",
+    shortTitle: "Nível 5: Gestor / Consulta",
+    description: "Consulta de candidatos aprovados para o turno, validação de escala no chão de fábrica e feedback direto de período de experiência.",
+    badgeColor: "bg-amber-500/15 text-amber-400 border-amber-500/30",
+    iconName: "Users",
     userCount: 6
   }
 ];
@@ -396,8 +406,8 @@ export const initialUsersData = [
     id: "USR-003",
     name: "Rafael Mendes",
     email: "rafael.mendes@talentflow.com.br",
-    role: "Diretor de Gente & Gestão (CPO)",
-    accessLevel: "GESTOR_RH",
+    role: "Gerente Geral de Gente & Operações",
+    accessLevel: "GERENTE_RH",
     unit: "Hub Regional Jaú - SP",
     status: "Ativo",
     twoFactorEnabled: true,
@@ -409,8 +419,8 @@ export const initialUsersData = [
     id: "USR-004",
     name: "Mariana Albuquerque",
     email: "mariana.albuquerque@talentflow.com.br",
-    role: "DPO & Head Jurídico",
-    accessLevel: "AUDITOR_DPO",
+    role: "Analista de Retenção & Guardião 90 Dias",
+    accessLevel: "ANALISTA_90DIAS",
     unit: "Compliance Matriz - SP",
     status: "Ativo",
     twoFactorEnabled: true,
@@ -449,7 +459,7 @@ export const initialUsersData = [
     name: "Carlos Ferreira",
     email: "carlos.supervisor@mercadosul.com.br",
     role: "Encarregado de Operações & Turno",
-    accessLevel: "LIDER_OPERACIONAL",
+    accessLevel: "GESTOR_LOJA",
     unit: "CD Jaú - SP",
     status: "Ativo",
     twoFactorEnabled: true,
@@ -461,8 +471,8 @@ export const initialUsersData = [
     id: "USR-008",
     name: "Luciana Duarte",
     email: "luciana.bariri@talentflow.com.br",
-    role: "Supervisora de Varejo",
-    accessLevel: "LIDER_OPERACIONAL",
+    role: "Supervisora de Varejo & Loja",
+    accessLevel: "GESTOR_LOJA",
     unit: "Loja Centro Bariri - SP",
     status: "Bloqueado",
     twoFactorEnabled: false,
@@ -476,37 +486,37 @@ export const permissionsMatrix = [
   {
     module: "Gestão de Vagas",
     action: "Criar, editar e pausar vagas operacionais",
-    roles: { SUPER_ADMIN: true, GESTOR_RH: true, RECRUTADOR: false, AUDITOR_DPO: false, LIDER_OPERACIONAL: false }
+    roles: { SUPER_ADMIN: true, GERENTE_RH: true, RECRUTADOR: true, ANALISTA_90DIAS: false, GESTOR_LOJA: false }
   },
   {
-    module: "Triagem & Matching",
-    action: "Visualizar candidatos, disparar triagens no WhatsApp e agendar entrevistas",
-    roles: { SUPER_ADMIN: true, GESTOR_RH: true, RECRUTADOR: true, AUDITOR_DPO: false, LIDER_OPERACIONAL: false }
+    module: "Cadastro de Usuários da Equipe",
+    action: "Cadastrar novos recrutadores, analistas e gestores no Portal",
+    roles: { SUPER_ADMIN: true, GERENTE_RH: true, RECRUTADOR: false, ANALISTA_90DIAS: false, GESTOR_LOJA: false }
+  },
+  {
+    module: "Triagem & Matching WhatsApp Web",
+    action: "Visualizar candidatos, disparar WhatsApp Web e agendar entrevistas",
+    roles: { SUPER_ADMIN: true, GERENTE_RH: true, RECRUTADOR: true, ANALISTA_90DIAS: false, GESTOR_LOJA: false }
   },
   {
     module: "Aprovação de Contratação",
     action: "Aprovar contratação final e validar elegibilidade salarial",
-    roles: { SUPER_ADMIN: true, GESTOR_RH: true, RECRUTADOR: false, AUDITOR_DPO: false, LIDER_OPERACIONAL: false }
+    roles: { SUPER_ADMIN: true, GERENTE_RH: true, RECRUTADOR: false, ANALISTA_90DIAS: false, GESTOR_LOJA: false }
   },
   {
     module: "Guardião dos 90 Dias",
     action: "Acompanhar check-ins e registrar feedback de adaptação do colaborador",
-    roles: { SUPER_ADMIN: true, GESTOR_RH: true, RECRUTADOR: true, AUDITOR_DPO: false, LIDER_OPERACIONAL: true }
+    roles: { SUPER_ADMIN: true, GERENTE_RH: true, RECRUTADOR: true, ANALISTA_90DIAS: true, GESTOR_LOJA: true }
   },
   {
     module: "Auditoria & LGPD Art. 20",
     action: "Exportar relatórios de conformidade e revisar pontuações algorítmicas",
-    roles: { SUPER_ADMIN: true, GESTOR_RH: false, RECRUTADOR: false, AUDITOR_DPO: true, LIDER_OPERACIONAL: false }
+    roles: { SUPER_ADMIN: true, GERENTE_RH: true, RECRUTADOR: false, ANALISTA_90DIAS: false, GESTOR_LOJA: false }
   },
   {
-    module: "Controle de Usuários & Níveis",
-    action: "Criar contas, alterar níveis de acesso, bloquear usuários e resetar 2FA",
-    roles: { SUPER_ADMIN: true, GESTOR_RH: false, RECRUTADOR: false, AUDITOR_DPO: false, LIDER_OPERACIONAL: false }
-  },
-  {
-    module: "Configurações Globais do Sistema",
-    action: "Acessar chaves de API, webhooks e parâmetros gerais",
-    roles: { SUPER_ADMIN: true, GESTOR_RH: false, RECRUTADOR: false, AUDITOR_DPO: false, LIDER_OPERACIONAL: false }
+    module: "Controle de Perfis Master & 2FA",
+    action: "Alterar níveis de acesso administrativos e resetar credenciais",
+    roles: { SUPER_ADMIN: true, GERENTE_RH: false, RECRUTADOR: false, ANALISTA_90DIAS: false, GESTOR_LOJA: false }
   }
 ];
 
