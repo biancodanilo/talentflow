@@ -67,7 +67,7 @@ export default function AboutCompany() {
             <Building2 className="w-3.5 h-3.5" />
             <span>Sobre a Empresa Criadora</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white font-['Plus_Jakarta_Sans'] tracking-tight">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white font-['Plus_Jakarta_Sans'] tracking-tight">
             Conheça a <span className="bg-gradient-to-r from-emerald-400 to-teal-300 bg-clip-text text-transparent">TalentFlow Systems</span>
           </h2>
           <p className="text-slate-400 mt-3 text-sm sm:text-base leading-relaxed">
@@ -84,7 +84,7 @@ export default function AboutCompany() {
               <span>Nossa História & Propósito</span>
             </div>
             
-            <h3 className="text-2xl sm:text-3xl font-extrabold text-white font-['Plus_Jakarta_Sans'] leading-tight">
+            <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white font-['Plus_Jakarta_Sans'] leading-tight">
               Nascemos para revolucionar a contratação e retenção operacional em Jaú, Barra Bonita, Bariri e região.
             </h3>
 
@@ -125,7 +125,7 @@ export default function AboutCompany() {
               {/* Overlay Badge */}
               <div className="absolute bottom-4 left-4 right-4 p-3.5 rounded-xl bg-slate-900/90 backdrop-blur-md border border-slate-700 text-xs flex items-center justify-between">
                 <div>
-                  <p className="font-bold text-white">Hub Regional Jaú, Barra Bonita & Bariri</p>
+                  <p className="font-bold text-slate-900 dark:text-white">Hub Regional Jaú, Barra Bonita & Bariri</p>
                   <p className="text-[11px] text-slate-400">Atendendo polos industriais, usinas e centros logísticos</p>
                 </div>
                 <span className="flex h-2.5 w-2.5 rounded-full bg-emerald-400 animate-pulse" />
@@ -138,7 +138,7 @@ export default function AboutCompany() {
         {/* 4 Cultural & Technological Pillars */}
         <div className="mb-20">
           <div className="text-center max-w-xl mx-auto mb-10">
-            <h3 className="text-2xl font-bold text-white font-['Plus_Jakarta_Sans']">
+            <h3 className="text-2xl font-bold text-slate-900 dark:text-white font-['Plus_Jakarta_Sans']">
               Nossos Pilares Institucionais
             </h3>
             <p className="text-xs text-slate-400 mt-1">
@@ -154,7 +154,7 @@ export default function AboutCompany() {
                   <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center mb-4 border border-emerald-500/20">
                     <Icon className="w-5 h-5" />
                   </div>
-                  <h4 className="text-base font-bold text-white mb-2 font-['Plus_Jakarta_Sans']">
+                  <h4 className="text-base font-bold text-slate-900 dark:text-white mb-2 font-['Plus_Jakarta_Sans']">
                     {pillar.title}
                   </h4>
                   <p className="text-xs text-slate-400 leading-relaxed">
@@ -173,7 +173,7 @@ export default function AboutCompany() {
               <Users className="w-3.5 h-3.5" />
               <span>Corpo Diretivo</span>
             </div>
-            <h3 className="text-2xl font-bold text-white font-['Plus_Jakarta_Sans']">
+            <h3 className="text-2xl font-bold text-slate-900 dark:text-white font-['Plus_Jakarta_Sans']">
               Liderança com Experiência Real de Chão de Fábrica e Tecnologia
             </h3>
           </div>
@@ -188,7 +188,7 @@ export default function AboutCompany() {
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform"
                   />
                 </div>
-                <h4 className="text-sm font-bold text-white font-['Plus_Jakarta_Sans']">
+                <h4 className="text-sm font-bold text-slate-900 dark:text-white font-['Plus_Jakarta_Sans']">
                   {member.name}
                 </h4>
                 <p className="text-xs font-semibold text-emerald-400 mt-0.5 mb-2">

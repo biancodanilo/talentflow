@@ -12,7 +12,7 @@ export default function FeaturesShowcase() {
         <span className="px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
           Tecnologia Projetada para o Mundo Real
         </span>
-        <h2 className="text-3xl sm:text-4xl font-extrabold text-white mt-4 font-['Plus_Jakarta_Sans']">
+        <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white mt-4 font-['Plus_Jakarta_Sans']">
           Os 4 Pilares da Nova Contratação Operacional
         </h2>
         <p className="text-slate-400 mt-2 text-sm sm:text-base">
@@ -81,7 +81,7 @@ export default function FeaturesShowcase() {
               <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider">
                 Acessibilidade Máxima (Zero Drop-off)
               </span>
-              <h3 className="text-2xl sm:text-3xl font-extrabold text-white">
+              <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
                 Conversa natural, sem login e sem senha. O candidato já está no WhatsApp.
               </h3>
               <p className="text-sm text-slate-300 leading-relaxed">
@@ -165,7 +165,7 @@ export default function FeaturesShowcase() {
               <span className="text-xs font-bold text-teal-400 uppercase tracking-wider">
                 O Fim do Deslocamento Inviável
               </span>
-              <h3 className="text-2xl sm:text-3xl font-extrabold text-white">
+              <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
                 Por que contratar alguém que mora a 3 horas de distância do turno da madrugada?
               </h3>
               <p className="text-sm text-slate-300 leading-relaxed">
@@ -227,7 +227,7 @@ export default function FeaturesShowcase() {
               <span className="text-xs font-bold text-indigo-400 uppercase tracking-wider">
                 Protegendo o Período de Experiência
               </span>
-              <h3 className="text-2xl sm:text-3xl font-extrabold text-white">
+              <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
                 Guardião dos Primeiros 90 Dias: Alerta preditivo antes da desistência
               </h3>
               <p className="text-sm text-slate-300 leading-relaxed">
@@ -294,7 +294,7 @@ export default function FeaturesShowcase() {
               <span className="text-xs font-bold text-teal-400 uppercase tracking-wider">
                 Segurança Jurídica & Ética
               </span>
-              <h3 className="text-2xl sm:text-3xl font-extrabold text-white">
+              <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
                 Compliance LGPD Nativo e Revisão Humana de IA (Artigo 20)
               </h3>
               <p className="text-sm text-slate-300 leading-relaxed">

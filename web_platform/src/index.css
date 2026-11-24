@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @layer base {
   :root {
     --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
@@ -68,6 +70,15 @@
   border-color: #e2e8f0 !important;
 }
 
+/* Headings in Light Mode - High Contrast Dark Slate */
+.light h1:not(.preserve-dark *),
+.light h2:not(.preserve-dark *),
+.light h3:not(.preserve-dark *),
+.light h4:not(.preserve-dark *),
+.light h5:not(.preserve-dark *) {
+  color: #0f172a !important;
+}
+
 /* Background overrides in Light mode - STRICTLY EXCLUDE elements inside .preserve-dark */
 .light .bg-slate-950:not(.preserve-dark):not(.preserve-dark *) {
   background-color: #ffffff !important;
@@ -105,28 +116,29 @@
 }
 
 /* Text adaptations in Light mode - strictly avoid touching preserve-dark and action buttons */
-.light .text-white:not(.preserve-dark):not(.preserve-dark *):not(.bg-emerald-600 *):not(.bg-emerald-500 *):not(button.bg-emerald-500 *):not(button.bg-emerald-600 *) {
-  color: #0f172a;
+.light .text-white:not(.preserve-dark):not(.preserve-dark *):not(.bg-emerald-600 *):not(.bg-emerald-500 *):not(button.bg-emerald-500 *):not(button.bg-emerald-600 *),
+.light [class*="dark:text-white"]:not(.preserve-dark):not(.preserve-dark *):not(.bg-emerald-600 *):not(.bg-emerald-500 *) {
+  color: #0f172a !important;
 }
 
 .light .text-slate-100:not(.preserve-dark):not(.preserve-dark *) {
-  color: #0f172a;
+  color: #0f172a !important;
 }
 
 .light .text-slate-200:not(.preserve-dark):not(.preserve-dark *) {
-  color: #1e293b;
+  color: #1e293b !important;
 }
 
 .light .text-slate-300:not(.preserve-dark):not(.preserve-dark *) {
-  color: #334155;
+  color: #334155 !important;
 }
 
 .light .text-slate-400:not(.preserve-dark):not(.preserve-dark *) {
-  color: #64748b;
+  color: #64748b !important;
 }
 
 .light .text-slate-500:not(.preserve-dark):not(.preserve-dark *) {
-  color: #94a3b8;
+  color: #94a3b8 !important;
 }
 
 /* Regras Absolutas para preservação de consoles escuros, radares e cards de alta telemetria */

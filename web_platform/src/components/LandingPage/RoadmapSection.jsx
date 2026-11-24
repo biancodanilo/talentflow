@@ -73,7 +73,7 @@ export default function RoadmapSection() {
         <span className="px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-slate-800 text-slate-300 border border-slate-700">
           Evolução Incremental (Scrum / Ágil)
         </span>
-        <h2 className="text-3xl sm:text-4xl font-extrabold text-white mt-4 font-['Plus_Jakarta_Sans']">
+        <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white mt-4 font-['Plus_Jakarta_Sans']">
           Roadmap Estratégico do Software
         </h2>
         <p className="text-slate-400 mt-2 text-sm sm:text-base">
@@ -97,7 +97,7 @@ export default function RoadmapSection() {
                   <Icon className={`w-5 h-5 ${item.iconColor}`} />
                 </div>
 
-                <h3 className="text-lg font-bold text-white font-['Plus_Jakarta_Sans']">
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white font-['Plus_Jakarta_Sans']">
                   {item.phase}
                 </h3>
                 <p className="text-xs text-slate-400 mt-1 mb-4">

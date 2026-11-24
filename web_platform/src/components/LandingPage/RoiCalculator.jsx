@@ -45,10 +45,10 @@ export default function RoiCalculator({ onGoToRh, onGoToAdmin, onGoToDashboard }
             <Calculator className="w-3.5 h-3.5" />
             <span>Simulador Financeiro de Viabilidade & ROI</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white font-['Plus_Jakarta_Sans']">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white font-['Plus_Jakarta_Sans']">
             Quanto sua operação economiza eliminando o turnover precoce?
           </h2>
-          <p className="text-slate-300 mt-2 text-sm sm:text-base">
+          <p className="text-slate-600 dark:text-slate-300 mt-2 text-sm sm:text-base">
             Simule os indicadores da sua empresa e comprove como a triagem precisa e o <strong className="text-emerald-400 font-semibold">Guardião dos 90 Dias</strong> convertem prejuízo em lucro operacional.
           </p>
         </div>
