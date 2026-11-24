@@ -37,8 +37,8 @@ export default function ProblemSolution() {
               <li className="flex items-start space-x-3">
                 <XCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
                 <div>
-                  <strong className="text-sm text-slate-900 dark:text-slate-100 font-bold">Drop-off de 82% no Cadastro:</strong>
-                  <p className="text-xs text-slate-600 dark:text-slate-300 mt-0.5 leading-relaxed">
+                  <strong className="text-sm text-slate-950 dark:text-white font-extrabold">Drop-off de 82% no Cadastro:</strong>
+                  <p className="text-xs text-slate-800 dark:text-slate-200 mt-0.5 leading-relaxed font-medium">
                     Formulários de 40 minutos, testes teóricos de raciocínio abstrato incompatíveis com o perfil operacional.
                   </p>
                 </div>
@@ -47,8 +47,8 @@ export default function ProblemSolution() {
               <li className="flex items-start space-x-3">
                 <XCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
                 <div>
-                  <strong className="text-sm text-slate-900 dark:text-slate-100 font-bold">Comissões Inflacionadas de Agências:</strong>
-                  <p className="text-xs text-slate-600 dark:text-slate-300 mt-0.5 leading-relaxed">
+                  <strong className="text-sm text-slate-950 dark:text-white font-extrabold">Comissões Inflacionadas de Agências:</strong>
+                  <p className="text-xs text-slate-800 dark:text-slate-200 mt-0.5 leading-relaxed font-medium">
                     Custos de até 1 salário por admissão cobrados por agências analógicas para triagens manuais lentas.
                   </p>
                 </div>
@@ -57,8 +57,8 @@ export default function ProblemSolution() {
               <li className="flex items-start space-x-3">
                 <XCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
                 <div>
-                  <strong className="text-sm text-slate-900 dark:text-slate-100 font-bold">Ignora a Realidade Logística:</strong>
-                  <p className="text-xs text-slate-600 dark:text-slate-300 mt-0.5 leading-relaxed">
+                  <strong className="text-sm text-slate-950 dark:text-white font-extrabold">Ignora a Realidade Logística:</strong>
+                  <p className="text-xs text-slate-800 dark:text-slate-200 mt-0.5 leading-relaxed font-medium">
                     Contrata quem mora a 2h de distância ou depende de 3 conduções para chegar no turno das 06h. O abandono é certo.
                   </p>
                 </div>
@@ -67,8 +67,8 @@ export default function ProblemSolution() {
               <li className="flex items-start space-x-3">
                 <XCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
                 <div>
-                  <strong className="text-sm text-slate-900 dark:text-slate-100 font-bold">Abandono após a Assinatura:</strong>
-                  <p className="text-xs text-slate-600 dark:text-slate-300 mt-0.5 leading-relaxed">
+                  <strong className="text-sm text-slate-950 dark:text-white font-extrabold">Abandono após a Assinatura:</strong>
+                  <p className="text-xs text-slate-800 dark:text-slate-200 mt-0.5 leading-relaxed font-medium">
                     Nenhum acompanhamento nos primeiros 90 dias. A empresa gasta com exames e EPIs, e o colaborador desiste na 3ª semana.
                   </p>
                 </div>

@@ -147,29 +147,29 @@ export default function Hero({ onOpenRoiCalculator, onGoToRh }) {
               
               {/* Left Column: Active Node Info & Metrics */}
               <div className="lg:col-span-5 space-y-4">
-                <div className="p-4 rounded-2xl bg-[#0b1322] border border-slate-800 space-y-2">
+                <div className="p-4 rounded-2xl bg-[#0b1322] border border-slate-800 space-y-2" style={{ backgroundColor: '#0b1322', borderColor: '#1e293b' }}>
                   <div className="flex items-center justify-between text-xs">
-                    <span className="text-slate-400 font-semibold">Polo Selecionado:</span>
-                    <span className="text-emerald-400 font-bold flex items-center space-x-1">
+                    <span className="text-slate-400 font-semibold" style={{ color: '#94a3b8' }}>Polo Selecionado:</span>
+                    <span className="text-emerald-400 font-bold flex items-center space-x-1" style={{ color: '#34d399' }}>
                       <MapPin className="w-3.5 h-3.5" />
                       <span>{currentNode.city}</span>
                     </span>
                   </div>
-                  <p className="text-xs font-semibold text-white">{currentNode.label}</p>
+                  <p className="text-xs font-semibold text-white" style={{ color: '#ffffff' }}>{currentNode.label}</p>
                 </div>
 
                 <div className="grid grid-cols-3 gap-2">
-                  <div className="p-3 rounded-2xl bg-[#0b1322] border border-slate-800 text-center">
-                    <p className="text-[10px] text-slate-400 uppercase font-semibold">Candidatos</p>
-                    <p className="text-lg font-black text-white mt-0.5">{currentNode.candidates}</p>
+                  <div className="p-3 rounded-2xl bg-[#0b1322] border border-slate-800 text-center" style={{ backgroundColor: '#0b1322', borderColor: '#1e293b' }}>
+                    <p className="text-[10px] text-slate-400 uppercase font-semibold" style={{ color: '#94a3b8' }}>Candidatos</p>
+                    <p className="text-lg font-black text-white mt-0.5" style={{ color: '#ffffff' }}>{currentNode.candidates}</p>
                   </div>
-                  <div className="p-3 rounded-2xl bg-[#0b1322] border border-slate-800 text-center">
-                    <p className="text-[10px] text-slate-400 uppercase font-semibold">Vagas Abertas</p>
-                    <p className="text-lg font-black text-emerald-400 mt-0.5">{currentNode.activeJobs}</p>
+                  <div className="p-3 rounded-2xl bg-[#0b1322] border border-slate-800 text-center" style={{ backgroundColor: '#0b1322', borderColor: '#1e293b' }}>
+                    <p className="text-[10px] text-slate-400 uppercase font-semibold" style={{ color: '#94a3b8' }}>Vagas Abertas</p>
+                    <p className="text-lg font-black text-emerald-400 mt-0.5" style={{ color: '#34d399' }}>{currentNode.activeJobs}</p>
                   </div>
-                  <div className="p-3 rounded-2xl bg-[#0b1322] border border-slate-800 text-center">
-                    <p className="text-[10px] text-slate-400 uppercase font-semibold">Deslocamento</p>
-                    <p className="text-lg font-black text-teal-300 mt-0.5">{currentNode.avgCommute}</p>
+                  <div className="p-3 rounded-2xl bg-[#0b1322] border border-slate-800 text-center" style={{ backgroundColor: '#0b1322', borderColor: '#1e293b' }}>
+                    <p className="text-[10px] text-slate-400 uppercase font-semibold" style={{ color: '#94a3b8' }}>Deslocamento</p>
+                    <p className="text-lg font-black text-teal-300 mt-0.5" style={{ color: '#5eead4' }}>{currentNode.avgCommute}</p>
                   </div>
                 </div>
 
@@ -202,28 +202,28 @@ export default function Hero({ onOpenRoiCalculator, onGoToRh }) {
 
                 {/* Visual Route Matching representation */}
                 <div className="py-4 space-y-3 font-mono text-xs">
-                  <div className="flex items-center justify-between p-2.5 rounded-xl bg-[#0b1322] border border-slate-800">
+                  <div className="flex items-center justify-between p-2.5 rounded-xl bg-[#0b1322] border border-slate-800" style={{ backgroundColor: '#0b1322', borderColor: '#1e293b' }}>
                     <div className="flex items-center space-x-2.5">
                       <div className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-                      <span className="text-slate-200">Triagem WhatsApp</span>
+                      <span className="text-slate-200" style={{ color: '#e2e8f0' }}>Triagem WhatsApp</span>
                     </div>
-                    <span className="text-emerald-400 font-bold text-[11px]">Média de resposta: 2min 40s</span>
+                    <span className="text-emerald-400 font-bold text-[11px]" style={{ color: '#34d399' }}>Média de resposta: 2min 40s</span>
                   </div>
 
-                  <div className="flex items-center justify-between p-2.5 rounded-xl bg-[#0b1322] border border-slate-800">
+                  <div className="flex items-center justify-between p-2.5 rounded-xl bg-[#0b1322] border border-slate-800" style={{ backgroundColor: '#0b1322', borderColor: '#1e293b' }}>
                     <div className="flex items-center space-x-2.5">
                       <div className="w-2 h-2 rounded-full bg-cyan-400" />
-                      <span className="text-slate-200">Linha de Ônibus & Baldeação</span>
+                      <span className="text-slate-200" style={{ color: '#e2e8f0' }}>Linha de Ônibus & Baldeação</span>
                     </div>
-                    <span className="text-cyan-300 font-bold text-[11px]">Zero risco de atraso turno 06h</span>
+                    <span className="text-cyan-300 font-bold text-[11px]" style={{ color: '#67e8f9' }}>Zero risco de atraso turno 06h</span>
                   </div>
 
-                  <div className="flex items-center justify-between p-2.5 rounded-xl bg-[#0b1322] border border-slate-800">
+                  <div className="flex items-center justify-between p-2.5 rounded-xl bg-[#0b1322] border border-slate-800" style={{ backgroundColor: '#0b1322', borderColor: '#1e293b' }}>
                     <div className="flex items-center space-x-2.5">
                       <div className="w-2 h-2 rounded-full bg-indigo-400" />
-                      <span className="text-slate-200">Guardião 90 Dias</span>
+                      <span className="text-slate-200" style={{ color: '#e2e8f0' }}>Guardião 90 Dias</span>
                     </div>
-                    <span className="text-indigo-300 font-bold text-[11px]">Check-ins dias 1, 15, 30, 60, 90</span>
+                    <span className="text-indigo-300 font-bold text-[11px]" style={{ color: '#a5b4fc' }}>Check-ins dias 1, 15, 30, 60, 90</span>
                   </div>
                 </div>
 

@@ -122,9 +122,9 @@ export default function MobileAppShowcase({ onOpenFlutterApp }) {
                 <div className="px-5 py-3 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 flex items-center justify-between">
                   <div className="flex items-center space-x-1.5">
                     <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping" />
-                    <span className="font-extrabold text-slate-900 dark:text-white text-xs">TalentFlow</span>
+                    <span className="font-extrabold text-slate-950 dark:text-white text-xs">TalentFlow</span>
                   </div>
-                  <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">Olá, Rodrigo 👋</span>
+                  <span className="text-[11px] text-slate-700 dark:text-slate-300 font-bold">Olá, Rodrigo 👋</span>
                 </div>
 
                 {/* Smartphone Dynamic Content Body */}
