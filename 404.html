@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TalentFlow - Redirecionando...</title>
+  <script>
+    (function() {
+      const SERVER_URL = "https://talentflow.tail5f8db5.ts.net";
+      const fullPath = window.location.pathname || "";
+      const path = fullPath.toLowerCase();
+      const hash = (window.location.hash || "").toLowerCase();
+      const search = window.location.search || "";
+
+      // Se contém /admin
+      if (path.includes('admin') || hash.includes('admin') || search.includes('admin')) {
+        window.location.replace(SERVER_URL + "/admin");
+        return;
+      }
+
+      // Se contém /rh
+      if (path.includes('rh') || hash.includes('rh') || search.includes('rh')) {
+        window.location.replace(SERVER_URL + "/rh");
+        return;
+      }
+
+      // Se for qualquer outra rota, extrai a parte após /talentflow/ se existir
+      const segments = fullPath.replace(/^\/talentflow\/?/i, '').replace(/^\//, '');
+      if (segments) {
+        window.location.replace(SERVER_URL + "/" + segments + search + hash);
+        return;
+      }
+
+      // Fallback: vai para a home do servidor
+      window.location.replace(SERVER_URL);
+    })();
+  </script>
+</head>
+<body style="background:#060b14;color:#f1f5f9;font-family:sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;margin:0;text-align:center;">
+  <h2 style="font-size:20px;font-weight:bold;margin-bottom:8px;">Conectando ao TalentFlow...</h2>
+  <p style="color:#94a3b8;font-size:14px;">Redirecionando para o servidor seguro com o caminho solicitado.</p>
+</body>
+</html>

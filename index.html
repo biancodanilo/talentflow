@@ -1,536 +1,1203 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="dark scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TalentFlow - Gateway & Status da Plataforma</title>
+  <title>TalentFlow - RH Tech para Mão de Obra Operacional e de Alto Volume</title>
+  
+  <!-- REDIRECIONAMENTO IMEDIATO SE ACESSAR /rh OU /admin -->
+  <script>
+    (function() {
+      const SERVER_URL = "https://talentflow.tail5f8db5.ts.net";
+      const path = (window.location.pathname || "").toLowerCase();
+      const hash = (window.location.hash || "").toLowerCase();
+      const search = (window.location.search || "").toLowerCase();
+
+      // Se for /admin, #/admin, ?admin
+      if (path.endsWith('/admin') || path.endsWith('/admin/') || path.includes('/admin') || hash.includes('admin') || search.includes('admin')) {
+        window.location.replace(SERVER_URL + "/admin");
+        return;
+      }
+
+      // Se for /rh, #/rh, ?rh
+      if (path.endsWith('/rh') || path.endsWith('/rh/') || path.includes('/rh') || hash.includes('rh') || search.includes('rh')) {
+        window.location.replace(SERVER_URL + "/rh");
+        return;
+      }
+    })();
+  </script>
+
+  <!-- Google Fonts & Tailwind CDN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            slate: {
+              850: '#141d2e',
+              950: '#070c18',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
   <style>
     * {
       box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     }
-
     body {
       background-color: #060b14;
       color: #f1f5f9;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 32px 20px;
-      overflow-x: hidden;
+      font-family: 'Inter', sans-serif;
     }
-
-    /* Tela de verificação / Loading inicial imperceptível */
-    #loading-probe {
-      position: fixed;
-      inset: 0;
-      background: #060b14;
-      z-index: 9999;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      transition: opacity 0.3s ease, visibility 0.3s ease;
+    .font-display {
+      font-family: 'Plus Jakarta Sans', sans-serif;
     }
-
-    .spinner {
-      width: 48px;
-      height: 48px;
-      border: 3px solid rgba(16, 185, 129, 0.15);
-      border-top-color: #10b981;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-    }
-
-    .probe-text {
-      margin-top: 16px;
-      font-size: 13px;
-      font-weight: 600;
-      color: #94a3b8;
-      letter-spacing: 0.3px;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    /* Fundo sutil com gradiente amplo */
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle at 50% 10%, rgba(16, 185, 129, 0.08), transparent 60%),
-                  radial-gradient(circle at 90% 90%, rgba(56, 189, 248, 0.05), transparent 60%);
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    .wrapper {
-      position: relative;
-      z-index: 1;
-      width: 100%;
-      max-width: 880px;
-      margin: 0 auto;
-      opacity: 0;
-      transform: translateY(10px);
-      transition: opacity 0.4s ease, transform 0.4s ease;
-    }
-
-    .wrapper.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* Cabeçalho */
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding-bottom: 24px;
-      border-bottom: 1px solid #1e293b;
-      margin-bottom: 36px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .brand-logo {
-      width: 44px;
-      height: 44px;
-      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
-    }
-
-    .brand-logo svg {
-      width: 24px;
-      height: 24px;
-      fill: none;
-      stroke: #ffffff;
-      stroke-width: 2.5;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-
-    .brand-text h1 {
-      font-size: 20px;
-      font-weight: 800;
-      color: #ffffff;
-      letter-spacing: -0.3px;
-    }
-
-    .brand-text p {
-      font-size: 13px;
-      color: #94a3b8;
-    }
-
-    .status-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 14px;
-      background: rgba(239, 68, 68, 0.1);
-      border: 1px solid rgba(239, 68, 68, 0.3);
-      border-radius: 999px;
-      color: #f87171;
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    .status-pill .dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #ef4444;
-      box-shadow: 0 0 8px #ef4444;
-    }
-
-    /* Grid Principal */
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-      margin-bottom: 32px;
-    }
-
-    @media (max-width: 768px) {
-      .grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .card {
-      background: #0b1322;
-      border: 1px solid #1e293b;
-      border-radius: 24px;
-      padding: 32px 28px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
-    }
-
-    .card h2 {
-      font-size: 20px;
-      font-weight: 800;
-      color: #ffffff;
-      margin-bottom: 12px;
-    }
-
-    .card p {
-      font-size: 13px;
-      color: #94a3b8;
-      line-height: 1.6;
-      margin-bottom: 24px;
-    }
-
-    .offline-tag {
-      display: inline-block;
-      padding: 4px 10px;
-      border-radius: 8px;
-      background: rgba(239, 68, 68, 0.15);
-      color: #fca5a5;
-      font-size: 11px;
-      font-weight: 700;
-      margin-bottom: 14px;
-      border: 1px solid rgba(239, 68, 68, 0.3);
-    }
-
-    .btn-enter {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      width: 100%;
-      padding: 15px 20px;
-      background: #10b981;
-      color: #022c22;
-      text-decoration: none;
-      font-weight: 800;
-      font-size: 15px;
-      border-radius: 14px;
-      transition: all 0.2s ease;
-      cursor: pointer;
-      border: none;
-    }
-
-    .btn-enter:hover {
-      background: #34d399;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
-    }
-
-    .btn-retry {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      width: 100%;
-      padding: 14px 20px;
+    /* Estilização suave de sliders */
+    input[type=range] {
+      -webkit-appearance: none;
       background: #1e293b;
-      color: #f1f5f9;
-      font-weight: 700;
-      font-size: 13px;
-      border-radius: 14px;
-      border: 1px solid #334155;
+      border-radius: 8px;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      height: 20px;
+      width: 20px;
+      border-radius: 50%;
+      background: #10b981;
       cursor: pointer;
-      transition: all 0.2s;
-      margin-top: 10px;
-    }
-
-    .btn-retry:hover {
-      background: #334155;
-      border-color: #475569;
-    }
-
-    /* Card de Contato */
-    .contact-box {
-      margin-top: 16px;
-      padding: 14px 16px;
-      background: rgba(15, 23, 42, 0.8);
-      border: 1px solid #1e293b;
-      border-radius: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
-
-    .contact-left {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
-      color: #ffffff;
-      font-weight: 800;
-      font-size: 13px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
-    }
-
-    .contact-info h3 {
-      font-size: 13px;
-      font-weight: 700;
-      color: #ffffff;
-    }
-
-    .contact-info p {
-      font-size: 11px;
-      color: #94a3b8;
-      margin: 0;
-    }
-
-    .btn-contact {
-      padding: 8px 14px;
-      background: #0284c7;
-      color: #ffffff;
-      text-decoration: none;
-      font-size: 12px;
-      font-weight: 700;
-      border-radius: 10px;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.2s;
-    }
-
-    .btn-contact:hover {
-      background: #38bdf8;
-      color: #082f49;
-    }
-
-    /* Banner Informativo */
-    .info-banner {
-      background: #091120;
-      border: 1px solid #1e293b;
-      border-radius: 20px;
-      padding: 24px;
-      margin-bottom: 32px;
-    }
-
-    .info-banner h3 {
-      font-size: 14px;
-      font-weight: 800;
-      color: #38bdf8;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 14px;
-    }
-
-    .info-banner ul {
-      list-style: none;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px 24px;
-    }
-
-    @media (max-width: 640px) {
-      .info-banner ul {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .info-banner li {
-      font-size: 12px;
-      color: #cbd5e1;
-      line-height: 1.5;
-    }
-
-    .info-banner li strong {
-      color: #ffffff;
-    }
-
-    footer {
-      border-top: 1px solid #1e293b;
-      padding-top: 20px;
-      text-align: center;
-      font-size: 12px;
-      color: #64748b;
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
     }
   </style>
 </head>
-<body>
+<body class="min-h-screen bg-[#060b14] text-slate-100 flex flex-col selection:bg-emerald-500 selection:text-slate-950">
 
-  <!-- Loading Overlay inicial que faz o teste do link sem mostrar a tela -->
-  <div id="loading-probe">
-    <div class="spinner"></div>
-    <p class="probe-text">Conectando à plataforma segura TalentFlow...</p>
-  </div>
+  <!-- Glow Backgrounds -->
+  <div class="fixed top-0 left-1/2 -translate-x-1/2 w-[1100px] h-[550px] bg-gradient-to-b from-emerald-500/15 via-teal-500/5 to-transparent blur-3xl pointer-events-none -z-10"></div>
+  <div class="fixed -top-24 -left-24 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none -z-10"></div>
 
-  <div class="wrapper" id="main-wrapper">
-    <!-- Cabeçalho -->
-    <header>
-      <div class="brand">
-        <div class="brand-logo">
-          <svg viewBox="0 0 24 24">
-            <polygon points="12 2 19 21 12 17 5 21 12 2"></polygon>
-          </svg>
-        </div>
-        <div class="brand-text">
-          <h1>TalentFlow</h1>
-          <p>Portal de Acesso & Monitoramento</p>
-        </div>
-      </div>
-
-      <div class="status-pill">
-        <span class="dot"></span>
-        Servidor Seguro Indisponível
-      </div>
-    </header>
-
-    <!-- Conteúdo Principal -->
-    <div class="grid">
-      <!-- Coluna 1: Acesso Manual -->
-      <div class="card">
-        <div>
-          <h2>Acesso Direto à Plataforma</h2>
-          <p>
-            O TalentFlow opera sob canal seguro com criptografia de ponta a ponta e sincronização com banco de dados em tempo real. Caso o redirecionamento automático não tenha ocorrido, você pode tentar abrir manualmente:
-          </p>
-        </div>
-
-        <div>
-          <a href="https://talentflow.tail5f8db5.ts.net/" class="btn-enter" target="_blank" rel="noopener noreferrer">
-            <span>Entrar no TalentFlow</span>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-              <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
-          </a>
-
-          <button onclick="testAndRedirect()" class="btn-retry">
-            <span>Verificar Disponibilidade Novamente</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Coluna 2: 404 / Servidor Fora do Ar -->
-      <div class="card">
-        <div>
-          <div class="offline-tag">
-            <span>404 • Servidor Indisponível</span>
-          </div>
-          <h2>Servidor Fora do Ar?</h2>
-          <p>
-            O servidor seguro (nó Tailscale <em>talentflow</em>) está offline ou em manutenção no momento. Você só está vendo esta tela porque o link principal está inacessível. Entre em contato com o desenvolvedor:
-          </p>
-        </div>
-
-        <!-- Contato Danilo Gregorio Bianco -->
-        <div class="contact-box">
-          <div class="contact-left">
-            <div class="avatar">DG</div>
-            <div class="contact-info">
-              <h3>Danilo Gregorio Bianco</h3>
-              <p>Desenvolvedor Responsável</p>
+  <!-- TOP NAVBAR -->
+  <header class="sticky top-0 z-50 backdrop-blur-md bg-[#070c18]/90 border-b border-slate-800/80 transition-colors">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <!-- Logo & Marca -->
+        <a href="#hero" class="flex items-center space-x-3 cursor-pointer select-none">
+          <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-emerald-500 via-teal-400 to-indigo-500 p-0.5 shadow-lg shadow-emerald-500/20 flex items-center justify-center">
+            <div class="w-full h-full bg-[#070c18] rounded-[14px] flex items-center justify-center">
+              <i data-lucide="sparkles" class="w-5 h-5 text-emerald-400"></i>
             </div>
           </div>
-          <a href="https://biancodanilo.github.io/danilo/" target="_blank" rel="noopener noreferrer" class="btn-contact">
-            <span>Contato</span>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-              <polyline points="15 3 21 3 21 9"></polyline>
-              <line x1="10" y1="14" x2="21" y2="3"></line>
-            </svg>
-          </a>
+          <div>
+            <div class="flex items-center space-x-2">
+              <span class="text-2xl font-extrabold tracking-tight font-display text-white">
+                Talent<span class="text-emerald-400">Flow</span>
+              </span>
+              <span class="px-2 py-0.5 text-[10px] font-bold tracking-wider uppercase rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
+                RH Tech
+              </span>
+            </div>
+            <p class="text-[11px] text-slate-400 font-medium">Contratação & Retenção Operacional</p>
+          </div>
+        </a>
+
+        <!-- Links Centrais -->
+        <nav class="hidden lg:flex items-center space-x-6 text-xs font-semibold text-slate-300">
+          <a href="#solucao" class="hover:text-emerald-400 transition-colors">Dores & Solução</a>
+          <a href="#roi-calculator" class="hover:text-emerald-400 transition-colors">Calculadora ROI</a>
+          <a href="#pilares" class="hover:text-emerald-400 transition-colors">Pilares de Retenção</a>
+          <a href="#app-mobile" class="hover:text-emerald-400 transition-colors">App Mobile</a>
+          <a href="#sobre-nos" class="hover:text-emerald-400 transition-colors">A Empresa</a>
+          <a href="#lgpd" class="hover:text-emerald-400 transition-colors">Compliance LGPD</a>
+        </nav>
+
+        <!-- Botões de Ação Direta no Servidor -->
+        <div class="flex items-center space-x-3">
+          <!-- Botão Área do RH (Redireciona para /rh no servidor) -->
+          <button
+            onclick="goToPlatform('/rh')"
+            class="flex items-center space-x-2 px-4 py-2.5 text-xs font-bold rounded-xl text-slate-100 bg-slate-900 hover:bg-slate-800 border border-slate-700 hover:border-emerald-500/60 shadow-sm transition-all"
+            title="Acessar Portal do RH no Servidor Seguro"
+          >
+            <i data-lucide="users" class="w-4 h-4 text-emerald-400"></i>
+            <span>Área do RH (/rh)</span>
+          </button>
+
+          <!-- Botão Entrar na Plataforma -->
+          <button
+            onclick="goToPlatform('/')"
+            class="flex items-center space-x-2 px-4 py-2.5 text-xs font-black text-slate-950 bg-emerald-400 hover:bg-emerald-300 rounded-xl shadow-lg shadow-emerald-500/25 transition-all hover:scale-[1.02] active:scale-[0.98]"
+            title="Entrar na Plataforma TalentFlow"
+          >
+            <span>Entrar na Plataforma</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </button>
         </div>
+
       </div>
     </div>
+  </header>
 
-    <!-- Banner Informativo -->
-    <div class="info-banner">
-      <h3>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10"></circle>
-          <line x1="12" y1="16" x2="12" y2="12"></line>
-          <line x1="12" y1="8" x2="12.01" y2="8"></line>
-        </svg>
-        Orientações de Diagnóstico:
-      </h3>
-      <ul>
-        <li><strong>Rede Tailscale:</strong> Verifique se o nó <em>talentflow</em> está ativo e autenticado na sua rede.</li>
-        <li><strong>Passagem Direta:</strong> Quando o nó está online, esta tela nunca é exibida e você é redirecionado instantaneamente.</li>
-        <li><strong>Banco de Dados:</strong> O sistema utiliza MariaDB centralizado com integridade relacional.</li>
-        <li><strong>Aplicativo Mobile:</strong> Candidatos utilizam o app Flutter conectado ao mesmo backend.</li>
-      </ul>
+  <!-- MAIN CONTENT -->
+  <main class="flex-1">
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="relative pt-12 pb-20 overflow-hidden">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        
+        <!-- Badge -->
+        <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-slate-900/90 border border-emerald-500/30 text-emerald-300 text-xs font-semibold mb-6 shadow-sm backdrop-blur-md">
+          <span class="flex h-2 w-2 rounded-full bg-emerald-400 animate-ping"></span>
+          <span>TalentFlow Systems • RH Tech Direcionada à Força Operacional e Logística</span>
+        </div>
+
+        <!-- Título Principal -->
+        <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white max-w-5xl mx-auto leading-[1.1] font-display">
+          Contrate em até <span class="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">72 Horas</span> e Estanque o <span class="underline decoration-emerald-500 decoration-wavy decoration-2">Turnover Precoce</span>.
+        </h1>
+
+        <!-- Subtítulo -->
+        <p class="mt-6 text-lg sm:text-xl text-slate-300 max-w-3xl mx-auto font-normal leading-relaxed">
+          Substituímos formulários longos e agências analógicas por <strong class="text-white font-bold">triagem rápida no WhatsApp</strong>, <strong class="text-white font-bold">matching por logística de deslocamento</strong> e <strong class="text-white font-bold">Guardião de Retenção dos Primeiros 90 Dias</strong>.
+        </p>
+
+        <!-- CTAs -->
+        <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a
+            href="#roi-calculator"
+            class="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-black text-sm rounded-2xl shadow-xl shadow-emerald-500/25 transition-all transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center space-x-2.5"
+          >
+            <i data-lucide="trending-up" class="w-4 h-4 text-slate-950"></i>
+            <span>Simular Economia de ROI</span>
+          </a>
+
+          <button
+            onclick="goToPlatform('/rh')"
+            class="w-full sm:w-auto px-8 py-4 bg-slate-900/90 hover:bg-slate-800 text-white font-bold text-sm rounded-2xl border border-slate-700/80 transition-all flex items-center justify-center space-x-2.5 hover:border-emerald-500/60 shadow-lg"
+          >
+            <i data-lucide="users" class="w-4 h-4 text-emerald-400"></i>
+            <span>Área do RH (/rh)</span>
+          </button>
+        </div>
+
+        <!-- RADAR INTERATIVO DE TELEMETRIA E MATCHING LOGÍSTICO -->
+        <div class="mt-14 relative max-w-5xl mx-auto">
+          <div class="rounded-3xl border-2 border-emerald-500/30 bg-gradient-to-b from-[#09111e] via-[#060b14] to-[#040810] shadow-2xl p-6 sm:p-8 text-left relative overflow-hidden">
+            
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-emerald-500/5 rounded-full blur-3xl pointer-events-none"></div>
+
+            <!-- Radar Header Bar -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-slate-800 gap-4">
+              <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shadow-sm">
+                  <i data-lucide="radio" class="w-5 h-5 animate-pulse"></i>
+                </div>
+                <div>
+                  <div class="flex items-center space-x-2">
+                    <h3 class="text-base font-extrabold text-white font-display">
+                      Radar de Matching Logístico & Disponibilidade
+                    </h3>
+                    <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+                      Ao Vivo
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-400">
+                    Telemetria de candidatos e rotas em tempo real nos polos regionais
+                  </p>
+                </div>
+              </div>
+
+              <!-- Node selector buttons: Jaú, Barra Bonita, Bariri -->
+              <div class="flex items-center space-x-1 bg-slate-900 p-1 rounded-2xl border border-slate-800 self-start sm:self-auto">
+                <button id="btn-node-jau" onclick="selectRadarNode('jau')" class="px-3 py-1.5 rounded-xl text-xs font-black bg-emerald-500 text-slate-950 transition-all shadow-md">
+                  Jaú
+                </button>
+                <button id="btn-node-barra" onclick="selectRadarNode('barra')" class="px-3 py-1.5 rounded-xl text-xs font-bold text-slate-400 hover:text-white transition-all">
+                  Barra Bonita
+                </button>
+                <button id="btn-node-bariri" onclick="selectRadarNode('bariri')" class="px-3 py-1.5 rounded-xl text-xs font-bold text-slate-400 hover:text-white transition-all">
+                  Bariri
+                </button>
+              </div>
+            </div>
+
+            <!-- Radar Content Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 pt-6 items-center">
+              
+              <!-- Left Column: Telemetry info -->
+              <div class="lg:col-span-5 space-y-4">
+                <div class="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-2">
+                  <div class="flex items-center justify-between text-xs">
+                    <span class="text-slate-400 font-semibold">Polo Selecionado:</span>
+                    <span id="node-city" class="text-emerald-400 font-bold flex items-center space-x-1">
+                      <i data-lucide="map-pin" class="w-3.5 h-3.5"></i>
+                      <span>Jaú - SP</span>
+                    </span>
+                  </div>
+                  <p id="node-label" class="text-xs font-semibold text-white">Distrito Industrial & Centro Logístico</p>
+                </div>
+
+                <div class="grid grid-cols-3 gap-2">
+                  <div class="p-3 rounded-2xl bg-slate-900/80 border border-slate-800 text-center">
+                    <p class="text-[10px] text-slate-400 uppercase font-semibold">Candidatos</p>
+                    <p id="node-candidates" class="text-lg font-black text-white mt-0.5">142</p>
+                  </div>
+                  <div class="p-3 rounded-2xl bg-slate-900/80 border border-slate-800 text-center">
+                    <p class="text-[10px] text-slate-400 uppercase font-semibold">Vagas Abertas</p>
+                    <p id="node-jobs" class="text-lg font-black text-emerald-400 mt-0.5">18</p>
+                  </div>
+                  <div class="p-3 rounded-2xl bg-slate-900/80 border border-slate-800 text-center">
+                    <p class="text-[10px] text-slate-400 uppercase font-semibold">Deslocamento</p>
+                    <p id="node-commute" class="text-lg font-black text-teal-300 mt-0.5">18 min</p>
+                  </div>
+                </div>
+
+                <!-- Spotlight Candidate -->
+                <div class="p-4 rounded-2xl bg-gradient-to-r from-emerald-950/60 to-slate-900 border border-emerald-500/30">
+                  <div class="flex items-center justify-between mb-2">
+                    <span class="text-[10px] font-bold text-emerald-400 uppercase tracking-wider">Top Match Logístico</span>
+                    <span id="node-score" class="text-xs font-black text-emerald-300 bg-emerald-500/20 px-2 py-0.5 rounded-md">
+                      96% Compatibilidade
+                    </span>
+                  </div>
+                  <p id="node-cand-name" class="text-sm font-bold text-white">Rodrigo Almeida</p>
+                  <p id="node-cand-role" class="text-xs text-slate-300">Op. Logístico 12x36</p>
+                  <p id="node-cand-match" class="text-[11px] text-emerald-300/90 mt-1 flex items-center space-x-1">
+                    <i data-lucide="navigation" class="w-3 h-3 shrink-0"></i>
+                    <span>Linha Circular Direta (4.5 km)</span>
+                  </p>
+                </div>
+              </div>
+
+              <!-- Right Column: Visual Terminal -->
+              <div class="lg:col-span-7 bg-[#050b12] p-5 rounded-2xl border border-slate-800/80 relative overflow-hidden">
+                <div class="flex items-center justify-between pb-3 border-b border-slate-800/80 text-[11px]">
+                  <span class="text-slate-400 font-mono flex items-center space-x-1.5">
+                    <i data-lucide="activity" class="w-3.5 h-3.5 text-emerald-400 animate-pulse"></i>
+                    <span>LOGISTICS_ENGINE :: ONLINE</span>
+                  </span>
+                  <span class="text-emerald-400 font-mono font-bold">LATÊNCIA &lt; 14ms</span>
+                </div>
+
+                <div class="py-4 space-y-3 font-mono text-xs">
+                  <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-900/90 border border-slate-800">
+                    <div class="flex items-center space-x-2.5">
+                      <div class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></div>
+                      <span class="text-slate-200">Triagem WhatsApp</span>
+                    </div>
+                    <span class="text-emerald-400 font-bold text-[11px]">Média de resposta: 2min 40s</span>
+                  </div>
+
+                  <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-900/90 border border-slate-800">
+                    <div class="flex items-center space-x-2.5">
+                      <div class="w-2 h-2 rounded-full bg-cyan-400"></div>
+                      <span class="text-slate-200">Linha de Ônibus & Baldeação</span>
+                    </div>
+                    <span class="text-cyan-300 font-bold text-[11px]">Zero risco de atraso turno 06h</span>
+                  </div>
+
+                  <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-900/90 border border-slate-800">
+                    <div class="flex items-center space-x-2.5">
+                      <div class="w-2 h-2 rounded-full bg-indigo-400"></div>
+                      <span class="text-slate-200">Guardião 90 Dias</span>
+                    </div>
+                    <span class="text-indigo-300 font-bold text-[11px]">Check-ins dias 1, 15, 30, 60, 90</span>
+                  </div>
+                </div>
+
+                <div class="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
+                  <span>Conexão direta com MariaDB & Flutter Mobile</span>
+                  <button onclick="goToPlatform('/rh')" class="text-emerald-400 hover:underline font-bold flex items-center space-x-1">
+                    <span>Acessar no Servidor</span>
+                    <i data-lucide="external-link" class="w-3 h-3"></i>
+                  </button>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- STATS BANNER -->
+    <section class="py-12 bg-slate-900/60 border-y border-slate-800/80">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-8">
+          <p class="text-xs uppercase tracking-widest text-emerald-400 font-bold">
+            Resultados Comprovados no Chão de Fábrica, Logística e Lojas
+          </p>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-1 font-display">
+            Impacto Mensurável nos 4 Indicadores Chave de ROI
+          </h2>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          
+          <div class="p-6 rounded-2xl bg-slate-900/90 border border-slate-800 hover:border-emerald-500/40 transition-all shadow-lg">
+            <div class="flex items-center justify-between mb-3">
+              <span class="p-2.5 rounded-xl bg-emerald-500/10 text-emerald-400">
+                <i data-lucide="timer" class="w-5 h-5"></i>
+              </span>
+              <span class="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full">-85%</span>
+            </div>
+            <p class="text-xs text-slate-400 font-medium">Tempo Médio de Contratação</p>
+            <div class="mt-2 flex items-baseline space-x-2">
+              <span class="text-3xl font-black text-white">3.4 dias</span>
+              <span class="text-xs text-slate-500 line-through">antes: 24 dias</span>
+            </div>
+            <p class="mt-2 text-[11px] text-slate-400">Vagas fechadas antes do turno parar.</p>
+          </div>
+
+          <div class="p-6 rounded-2xl bg-slate-900/90 border border-slate-800 hover:border-teal-500/40 transition-all shadow-lg">
+            <div class="flex items-center justify-between mb-3">
+              <span class="p-2.5 rounded-xl bg-teal-500/10 text-teal-400">
+                <i data-lucide="dollar-sign" class="w-5 h-5"></i>
+              </span>
+              <span class="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full">-80.5%</span>
+            </div>
+            <p class="text-xs text-slate-400 font-medium">Custo por Contratação (CAC)</p>
+            <div class="mt-2 flex items-baseline space-x-2">
+              <span class="text-3xl font-black text-white">R$ 380</span>
+              <span class="text-xs text-slate-500 line-through">antes: R$ 1.950</span>
+            </div>
+            <p class="mt-2 text-[11px] text-emerald-400 font-medium">Economia de R$ 1.570 por vaga.</p>
+          </div>
+
+          <div class="p-6 rounded-2xl bg-slate-900/90 border border-slate-800 hover:border-cyan-500/40 transition-all shadow-lg">
+            <div class="flex items-center justify-between mb-3">
+              <span class="p-2.5 rounded-xl bg-cyan-500/10 text-cyan-400">
+                <i data-lucide="message-square" class="w-5 h-5"></i>
+              </span>
+              <span class="text-xs font-bold text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded-full">+4.1x adesão</span>
+            </div>
+            <p class="text-xs text-slate-400 font-medium">Taxa de Adesão no WhatsApp</p>
+            <div class="mt-2 flex items-baseline space-x-2">
+              <span class="text-3xl font-black text-white">96.8%</span>
+              <span class="text-xs text-slate-500 line-through">antes: 18.2%</span>
+            </div>
+            <p class="mt-2 text-[11px] text-slate-400">&lt; 3% evasão na triagem conversacional.</p>
+          </div>
+
+          <div class="p-6 rounded-2xl bg-slate-900/90 border border-slate-800 hover:border-indigo-500/40 transition-all shadow-lg">
+            <div class="flex items-center justify-between mb-3">
+              <span class="p-2.5 rounded-xl bg-indigo-500/10 text-indigo-400">
+                <i data-lucide="shield-check" class="w-5 h-5"></i>
+              </span>
+              <span class="text-xs font-bold text-indigo-400 bg-indigo-500/10 px-2 py-0.5 rounded-full">+37.4 p.p.</span>
+            </div>
+            <p class="text-xs text-slate-400 font-medium">Retenção após 90 Dias</p>
+            <div class="mt-2 flex items-baseline space-x-2">
+              <span class="text-3xl font-black text-white">89.4%</span>
+              <span class="text-xs text-slate-500 line-through">média: 52.0%</span>
+            </div>
+            <p class="mt-2 text-[11px] text-emerald-400 font-medium">R$ 412.000 preservados/ano.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- DORES VS SOLUÇÃO -->
+    <section id="solucao" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-red-500/10 text-red-400 border border-red-500/20">
+          O Paradigma Antigo vs A Nova Solução
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-4 font-display">
+          Por que soluções corporativas tradicionais falham em vagas operacionais?
+        </h2>
+        <p class="text-slate-400 mt-3 text-sm sm:text-base">
+          Tratar vagas de alto volume e chão de fábrica com a mesma régua de vagas de escritório corporativo gera <strong class="text-red-400 font-bold">evasão em massa</strong> e um <strong class="text-red-400 font-bold">turnover precoce devastador</strong>.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+        
+        <!-- Card Dores -->
+        <div class="p-8 rounded-3xl bg-[#090e18] border-2 border-red-500/30 relative overflow-hidden flex flex-col justify-between shadow-xl">
+          <div>
+            <div class="flex items-center space-x-3 mb-6">
+              <div class="p-2.5 rounded-xl bg-red-500/20 text-red-400">
+                <i data-lucide="alert-triangle" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <h3 class="text-xl font-bold text-white">Modelo Tradicional</h3>
+                <p class="text-xs text-red-400 font-semibold">Gupy, LinkedIn & Agências Físicas</p>
+              </div>
+            </div>
+
+            <ul class="space-y-4">
+              <li class="flex items-start space-x-3">
+                <i data-lucide="x-circle" class="w-5 h-5 text-red-400 shrink-0 mt-0.5"></i>
+                <div>
+                  <strong class="text-sm text-slate-100 font-bold">Drop-off de 82% no Cadastro:</strong>
+                  <p class="text-xs text-slate-300 mt-0.5">Formulários de 40 minutos e testes teóricos incompatíveis com o perfil operacional.</p>
+                </div>
+              </li>
+              <li class="flex items-start space-x-3">
+                <i data-lucide="x-circle" class="w-5 h-5 text-red-400 shrink-0 mt-0.5"></i>
+                <div>
+                  <strong class="text-sm text-slate-100 font-bold">Comissões Inflacionadas de Agências:</strong>
+                  <p class="text-xs text-slate-300 mt-0.5">Custos de até 1 salário por admissão cobrados por agências analógicas.</p>
+                </div>
+              </li>
+              <li class="flex items-start space-x-3">
+                <i data-lucide="x-circle" class="w-5 h-5 text-red-400 shrink-0 mt-0.5"></i>
+                <div>
+                  <strong class="text-sm text-slate-100 font-bold">Ignora a Realidade Logística:</strong>
+                  <p class="text-xs text-slate-300 mt-0.5">Contrata quem mora a 2h de distância ou depende de 3 conduções para chegar no turno das 06h.</p>
+                </div>
+              </li>
+              <li class="flex items-start space-x-3">
+                <i data-lucide="x-circle" class="w-5 h-5 text-red-400 shrink-0 mt-0.5"></i>
+                <div>
+                  <strong class="text-sm text-slate-100 font-bold">Abandono após a Assinatura:</strong>
+                  <p class="text-xs text-slate-300 mt-0.5">Nenhum acompanhamento nos primeiros 90 dias. A empresa perde exames e kits de EPIs.</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="mt-8 pt-4 border-t border-red-500/20 text-center">
+            <span class="text-xs font-semibold text-red-300">
+              Resultado: Turnover de 48% antes de completar a experiência de 90 dias.
+            </span>
+          </div>
+        </div>
+
+        <!-- Card Solução TalentFlow -->
+        <div class="p-8 rounded-3xl bg-gradient-to-b from-[#061e14] via-[#081b24] to-[#040810] border-2 border-emerald-500/50 relative overflow-hidden flex flex-col justify-between shadow-2xl">
+          <div>
+            <div class="flex items-center space-x-3 mb-6">
+              <div class="p-2.5 rounded-xl bg-emerald-500/20 text-emerald-300">
+                <i data-lucide="zap" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <h3 class="text-xl font-bold text-white">Plataforma TalentFlow</h3>
+                <p class="text-xs text-emerald-400 font-semibold">RH Tech Direcionada à Força Operacional</p>
+              </div>
+            </div>
+
+            <ul class="space-y-4">
+              <li class="flex items-start space-x-3">
+                <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5"></i>
+                <div>
+                  <strong class="text-sm text-white font-bold">Triagem WhatsApp sem Atrito:</strong>
+                  <p class="text-xs text-slate-200 mt-0.5">Candidato responde 3 perguntas rápidas pelo WhatsApp em 2 minutos. Evasão menor que 3%.</p>
+                </div>
+              </li>
+              <li class="flex items-start space-x-3">
+                <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5"></i>
+                <div>
+                  <strong class="text-sm text-white font-bold">Matching Logístico Cirúrgico:</strong>
+                  <p class="text-xs text-slate-200 mt-0.5">Cruza tempo real de deslocamento, linhas de ônibus e tolerância a escalas (12x36, 6x1).</p>
+                </div>
+              </li>
+              <li class="flex items-start space-x-3">
+                <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5"></i>
+                <div>
+                  <strong class="text-sm text-white font-bold">Reaproveitamento Dinâmico do Banco:</strong>
+                  <p class="text-xs text-slate-200 mt-0.5">Candidatos pré-qualificados são reativados automaticamente para novas vagas na região.</p>
+                </div>
+              </li>
+              <li class="flex items-start space-x-3">
+                <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5"></i>
+                <div>
+                  <strong class="text-sm text-white font-bold">Guardião dos Primeiros 90 Dias:</strong>
+                  <p class="text-xs text-slate-200 mt-0.5">Check-ins inteligentes nos dias 1, 15, 30, 60 e 90 que identificam riscos precocemente.</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="mt-8 pt-4 border-t border-emerald-500/30 text-center">
+            <span class="text-xs font-bold text-emerald-300">
+              Resultado: 89.4% de retenção na experiência e -80% no custo por contratação.
+            </span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SIMULADOR FINANCEIRO DE ROI -->
+    <section id="roi-calculator" class="py-20 bg-slate-900/90 border-y border-slate-800">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center max-w-3xl mx-auto mb-14">
+          <div class="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-xs font-bold uppercase tracking-wider mb-3">
+            <i data-lucide="calculator" class="w-3.5 h-3.5"></i>
+            <span>Simulador Financeiro de Viabilidade & ROI</span>
+          </div>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-white font-display">
+            Quanto sua operação economiza eliminando o turnover precoce?
+          </h2>
+          <p class="text-slate-300 mt-2 text-sm sm:text-base">
+            Simule os indicadores da sua empresa e comprove como a triagem precisa e o <strong class="text-emerald-400 font-semibold">Guardião dos 90 Dias</strong> convertem prejuízo em lucro operacional.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+          
+          <!-- Sliders -->
+          <div class="lg:col-span-7 bg-[#090e18] p-6 sm:p-8 rounded-3xl border border-slate-800 shadow-2xl flex flex-col justify-between space-y-8">
+            
+            <!-- Slider 1 -->
+            <div>
+              <div class="flex justify-between items-center mb-2">
+                <label class="text-sm font-semibold text-slate-100 flex items-center space-x-2">
+                  <i data-lucide="users" class="w-4 h-4 text-emerald-400"></i>
+                  <span>Contratações Operacionais por Mês</span>
+                </label>
+                <span id="label-hires" class="text-lg font-black text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-xl border border-emerald-500/30">
+                  35 vagas/mês
+                </span>
+              </div>
+              <input
+                id="slider-hires"
+                type="range"
+                min="5"
+                max="250"
+                step="5"
+                value="35"
+                oninput="updateRoiCalculation()"
+                class="w-full h-2.5 bg-slate-800 rounded-lg appearance-none cursor-pointer"
+              />
+              <div class="flex justify-between text-[11px] text-slate-400 mt-1">
+                <span>5 (Pequeno Centro)</span>
+                <span>100 (Médio Porte)</span>
+                <span>250+ (Grande CD / Fábrica)</span>
+              </div>
+            </div>
+
+            <!-- Slider 2 -->
+            <div>
+              <div class="flex justify-between items-center mb-2">
+                <label class="text-sm font-semibold text-slate-100 flex items-center space-x-2">
+                  <i data-lucide="dollar-sign" class="w-4 h-4 text-teal-400"></i>
+                  <span>Custo Médio de Evasão nos 90 Dias (por pessoa)</span>
+                </label>
+                <span id="label-cost" class="text-lg font-black text-teal-300 bg-teal-500/10 px-3 py-1 rounded-xl border border-teal-500/30">
+                  R$ 3.800
+                </span>
+              </div>
+              <input
+                id="slider-cost"
+                type="range"
+                min="1500"
+                max="8000"
+                step="200"
+                value="3800"
+                oninput="updateRoiCalculation()"
+                class="w-full h-2.5 bg-slate-800 rounded-lg appearance-none cursor-pointer"
+              />
+              <p class="text-[11px] text-slate-400 mt-1">
+                Considera exames admissionais/demissionais, kits de EPIs, treinamento inicial e ociosidade.
+              </p>
+            </div>
+
+            <!-- Slider 3 -->
+            <div>
+              <div class="flex justify-between items-center mb-2">
+                <label class="text-sm font-semibold text-slate-100 flex items-center space-x-2">
+                  <i data-lucide="trending-up" class="w-4 h-4 text-indigo-400"></i>
+                  <span>Sua Taxa Atual de Evasão nos Primeiros 90 Dias</span>
+                </label>
+                <span id="label-turnover" class="text-lg font-black text-indigo-300 bg-indigo-500/10 px-3 py-1 rounded-xl border border-indigo-500/30">
+                  48%
+                </span>
+              </div>
+              <input
+                id="slider-turnover"
+                type="range"
+                min="20"
+                max="75"
+                step="1"
+                value="48"
+                oninput="updateRoiCalculation()"
+                class="w-full h-2.5 bg-slate-800 rounded-lg appearance-none cursor-pointer"
+              />
+              <p class="text-[11px] text-slate-400 mt-1">
+                A média do setor logístico e varejista na região varia de 45% a 55% de abandono antes do 90º dia.
+              </p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 pt-2">
+              <div class="p-3.5 rounded-2xl bg-slate-900 border border-slate-800">
+                <p class="text-[11px] text-slate-400">Total Anual de Vagas</p>
+                <p id="calc-annual-hires" class="text-base font-bold text-white mt-0.5">420 contratações/ano</p>
+              </div>
+              <div class="p-3.5 rounded-2xl bg-slate-900 border border-slate-800">
+                <p class="text-[11px] text-slate-400">Retorno Estimado (ROI)</p>
+                <p id="calc-roi-percent" class="text-base font-bold text-emerald-400 mt-0.5">+2.035% retorno</p>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Card de Resultado Financeiro -->
+          <div class="lg:col-span-5 bg-gradient-to-br from-[#061e14] via-[#091823] to-[#040810] p-6 sm:p-8 rounded-3xl border-2 border-emerald-500/60 shadow-2xl relative overflow-hidden flex flex-col justify-between">
+            <div class="absolute top-0 right-0 w-48 h-48 bg-emerald-500/20 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div>
+              <div class="flex items-center justify-between mb-3">
+                <div class="flex items-center space-x-2 text-emerald-400 text-xs font-extrabold uppercase tracking-wider">
+                  <i data-lucide="sparkles" class="w-4 h-4"></i>
+                  <span>Retorno Estimado Garantido</span>
+                </div>
+                <span id="calc-payback" class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+                  Payback: 18 dias
+                </span>
+              </div>
+
+              <p class="text-xs font-semibold text-slate-300">Economia Anual Total Projetada:</p>
+              
+              <!-- Grande Destaque Financeiro em Esmeralda Luminosa -->
+              <div id="calc-total-savings" class="text-4xl sm:text-5xl font-black text-emerald-300 drop-shadow-[0_2px_12px_rgba(16,185,129,0.4)] mt-2 mb-6 font-display tracking-tight">
+                R$ 1.461.700
+              </div>
+
+              <div class="space-y-3.5 pt-4 border-t border-slate-800/80">
+                <div class="flex justify-between items-center text-xs">
+                  <span class="text-slate-200">Rescisões precoces evitadas:</span>
+                  <span id="calc-avoided-losses" class="font-extrabold text-emerald-400 text-sm">
+                    157 colaboradores/ano
+                  </span>
+                </div>
+
+                <div class="flex justify-between items-center text-xs">
+                  <span class="text-slate-200">Economia em perdas de experiência:</span>
+                  <span id="calc-turnover-savings" class="font-bold text-white text-xs">
+                    R$ 596.600
+                  </span>
+                </div>
+
+                <div class="flex justify-between items-center text-xs">
+                  <span class="text-slate-200">Economia direta em CAC de contratação:</span>
+                  <span id="calc-cac-savings" class="font-bold text-white text-xs">
+                    R$ 659.400
+                  </span>
+                </div>
+
+                <div class="flex justify-between items-center text-xs">
+                  <span class="text-slate-200">Produtividade de horas do RH:</span>
+                  <span id="calc-hours-savings" class="font-bold text-white text-xs">
+                    R$ 205.800
+                  </span>
+                </div>
+
+                <div class="flex justify-between items-center text-xs pt-1">
+                  <span class="text-slate-200 font-semibold">Nova taxa estimada de retenção:</span>
+                  <span class="font-black text-emerald-300 bg-emerald-500/25 border border-emerald-400/40 px-3 py-1 rounded-full text-xs">
+                    89.4% retidos no 90º dia
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-8">
+              <button
+                onclick="goToPlatform('/rh')"
+                class="w-full py-4 bg-emerald-400 hover:bg-emerald-300 text-slate-950 font-black text-sm rounded-2xl shadow-xl shadow-emerald-500/25 transition-all flex items-center justify-center space-x-2 hover:scale-[1.02] active:scale-[0.98]"
+              >
+                <span>Acessar Área do RH (/rh)</span>
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+              </button>
+              <p class="text-[10px] text-center text-slate-400 mt-2.5">
+                Simulação baseada no Plano Executivo de Viabilidade e Redução de Custos TalentFlow.
+              </p>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- OS 4 PILARES DA CONTRATAÇÃO OPERACIONAL -->
+    <section id="pilares" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+          Tecnologia Projetada para o Mundo Real
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-4 font-display">
+          Os 4 Pilares da Nova Contratação Operacional
+        </h2>
+        <p class="text-slate-400 mt-2 text-sm sm:text-base">
+          Como eliminamos a fricção na entrada e blindamos a permanência do colaborador na empresa.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <div class="p-6 rounded-2xl bg-[#090e18] border border-slate-800 hover:border-emerald-500/40 transition-all flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center mb-4">
+              <i data-lucide="message-square" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-base font-bold text-white mb-2">1. Triagem via WhatsApp</h3>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              O candidato não baixa app pesado nem preenche formulário de 40min. Responde 3 perguntas rápidas no WhatsApp oficial em 2 minutos.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] text-emerald-400 font-semibold">
+            Evasão menor que 3%
+          </div>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-[#090e18] border border-slate-800 hover:border-emerald-500/40 transition-all flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-teal-500/10 text-teal-400 flex items-center justify-center mb-4">
+              <i data-lucide="map-pin" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-base font-bold text-white mb-2">2. Match Logístico & Escalas</h3>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              Cruza linhas de ônibus urbanas, tempo real de trajeto a pé/circular e compatibilidade com escalas (12x36, 6x1) antes de chamar.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] text-teal-300 font-semibold">
+            Sem risco de baldeação inviável
+          </div>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-[#090e18] border border-slate-800 hover:border-emerald-500/40 transition-all flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center mb-4">
+              <i data-lucide="clock" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-base font-bold text-white mb-2">3. Guardião dos 90 Dias</h3>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              Check-ins automáticos nos dias 1, 15, 30, 60 e 90 para detectar atritos de liderança ou transporte antes do colaborador pedir demissão.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] text-cyan-300 font-semibold">
+            89.4% retidos na experiência
+          </div>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-[#090e18] border border-slate-800 hover:border-emerald-500/40 transition-all flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center mb-4">
+              <i data-lucide="shield-check" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-base font-bold text-white mb-2">4. Supervisão LGPD Art. 20</h3>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              Trilha de auditoria completa com Human-in-the-Loop. Candidatos podem solicitar revisão humana de decisões algorítmicas a qualquer momento.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] text-indigo-300 font-semibold">
+            100% conforme diretrizes ANPD
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- APP MOBILE SHOWCASE -->
+    <section id="app-mobile" class="py-20 bg-slate-950 border-t border-slate-800">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center max-w-3xl mx-auto mb-16">
+          <div class="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 text-xs font-bold uppercase tracking-wider mb-3">
+            <i data-lucide="smartphone" class="w-3.5 h-3.5"></i>
+            <span>App do Candidato & Colaborador (Flutter)</span>
+          </div>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-white font-display">
+            Interface Feita para o Trabalhador Real
+          </h2>
+          <p class="text-slate-400 mt-2 text-sm sm:text-base">
+            Desenvolvido em Flutter com responsividade total para Android, iOS e Web. Leve, rápido e sem burocracia.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          
+          <div class="lg:col-span-6 space-y-6">
+            <h3 class="text-2xl font-bold text-white">
+              Do Primeiro Clique à Celebração dos 90 Dias
+            </h3>
+            <p class="text-slate-300 text-sm leading-relaxed">
+              O aplicativo foi desenhado para ser intuitivo até mesmo para quem não tem familiaridade com tecnologia corporativa. Tudo é acessível em 1 toque, com foco em localização, rotas de ônibus e checklist de integração.
+            </p>
+
+            <div class="space-y-3">
+              <div class="p-4 rounded-2xl bg-slate-900 border border-emerald-500/40 flex items-start space-x-3">
+                <i data-lucide="map-pin" class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5"></i>
+                <div>
+                  <h4 class="text-sm font-bold text-white">Radar de Vagas por Proximidade & Turno</h4>
+                  <p class="text-xs text-slate-400 mt-0.5">Visualização de vagas perto de casa com tempo em minutos e linhas de ônibus diretas.</p>
+                </div>
+              </div>
+
+              <div class="p-4 rounded-2xl bg-slate-900 border border-slate-800 flex items-start space-x-3">
+                <i data-lucide="clock" class="w-5 h-5 text-cyan-400 shrink-0 mt-0.5"></i>
+                <div>
+                  <h4 class="text-sm font-bold text-white">Jornada de Onboarding & Feedback Diário</h4>
+                  <p class="text-xs text-slate-400 mt-0.5">Check-in de bem-estar nos primeiros 90 dias com canal direto para suporte operacional.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="pt-2 flex flex-wrap gap-3">
+              <button onclick="goToPlatform('/')" class="px-5 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs flex items-center space-x-2 shadow-lg shadow-emerald-500/20">
+                <i data-lucide="external-link" class="w-4 h-4"></i>
+                <span>Acessar Plataforma no Servidor</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Phone mockup visual -->
+          <div class="lg:col-span-6 flex justify-center">
+            <div class="w-[300px] sm:w-[320px] rounded-[42px] border-4 border-slate-700 bg-slate-950 p-3 shadow-2xl shadow-emerald-500/10">
+              <div class="rounded-[32px] overflow-hidden bg-[#090e18] p-5 space-y-4 border border-slate-800">
+                <div class="flex items-center justify-between pb-2 border-b border-slate-800">
+                  <div class="flex items-center space-x-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span class="text-xs font-bold text-white">TalentFlow App</span>
+                  </div>
+                  <span class="text-[10px] text-slate-400">Jaú • Barra • Bariri</span>
+                </div>
+
+                <div class="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-xs">
+                  <p class="text-[10px] font-bold text-emerald-400 uppercase">Vaga Compatível (96%)</p>
+                  <p class="font-bold text-white mt-1">Operador de Logística 12x36</p>
+                  <p class="text-[11px] text-slate-300 mt-0.5">Distrito Industrial Jaú • Circular Linha 04</p>
+                </div>
+
+                <div class="p-3 rounded-xl bg-slate-900 border border-slate-800 text-xs space-y-1">
+                  <p class="text-[10px] text-slate-400">Guardião 90 Dias • Check-in Semana 2</p>
+                  <p class="font-bold text-cyan-300">"Tudo certo com seu transporte hoje?"</p>
+                  <div class="flex space-x-2 pt-2">
+                    <button class="flex-1 py-1 rounded-lg bg-emerald-500 text-slate-950 font-bold text-[10px]">Sim, tranquilo!</button>
+                    <button class="flex-1 py-1 rounded-lg bg-slate-800 text-slate-300 text-[10px]">Tive atraso</button>
+                  </div>
+                </div>
+
+                <button onclick="goToPlatform('/')" class="w-full py-2.5 rounded-xl bg-emerald-500 text-slate-950 font-bold text-xs">
+                  Ver Vagas no Servidor
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SOBRE A EMPRESA & LIDERANÇA -->
+    <section id="sobre-nos" class="py-20 bg-slate-900/40 border-t border-slate-800">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center max-w-3xl mx-auto mb-16">
+          <div class="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-xs font-bold uppercase tracking-wider mb-3">
+            <i data-lucide="building-2" class="w-3.5 h-3.5"></i>
+            <span>Sobre a Empresa Criadora</span>
+          </div>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-white font-display">
+            TalentFlow Systems Brasil
+          </h2>
+          <p className="text-slate-400 mt-2 text-sm sm:text-base">
+            Equipe multidisciplinar em inteligência artificial, governança trabalhista e operações de alta densidade no interior paulista.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          
+          <div class="p-6 rounded-2xl bg-[#090e18] border border-slate-800 text-center">
+            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80" alt="Dr. Marcos Silveira" class="w-20 h-20 rounded-2xl object-cover mx-auto mb-4 border border-emerald-500/30">
+            <h4 class="text-sm font-bold text-white">Dr. Marcos Silveira</h4>
+            <p class="text-xs text-emerald-400 font-semibold">CEO & Co-fundador</p>
+            <p class="text-[11px] text-slate-400 mt-2">Ex-VP de Operações e Supply Chain. Especialista em produtividade fabril.</p>
+          </div>
+
+          <div class="p-6 rounded-2xl bg-[#090e18] border border-slate-800 text-center">
+            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80" alt="Dra. Beatriz Prado" class="w-20 h-20 rounded-2xl object-cover mx-auto mb-4 border border-emerald-500/30">
+            <h4 class="text-sm font-bold text-white">Dra. Beatriz Prado</h4>
+            <p class="text-xs text-teal-400 font-semibold">CTO & Head de IA</p>
+            <p class="text-[11px] text-slate-400 mt-2">PhD em Grafos pela USP. Liderou modelos preditivos de logística.</p>
+          </div>
+
+          <div class="p-6 rounded-2xl bg-[#090e18] border border-slate-800 text-center">
+            <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80" alt="Rafael Mendes" class="w-20 h-20 rounded-2xl object-cover mx-auto mb-4 border border-emerald-500/30">
+            <h4 class="text-sm font-bold text-white">Rafael Mendes</h4>
+            <p class="text-xs text-indigo-400 font-semibold">Chief People Officer (CPO)</p>
+            <p class="text-[11px] text-slate-400 mt-2">18 anos de Gente & Gestão em Centros de Distribuição e Varejo.</p>
+          </div>
+
+          <div class="p-6 rounded-2xl bg-[#090e18] border border-slate-800 text-center">
+            <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=400&q=80" alt="Mariana Albuquerque" class="w-20 h-20 rounded-2xl object-cover mx-auto mb-4 border border-emerald-500/30">
+            <h4 class="text-sm font-bold text-white">Mariana Albuquerque</h4>
+            <p class="text-xs text-cyan-400 font-semibold">DPO & Governança LGPD</p>
+            <p class="text-[11px] text-slate-400 mt-2">Advogada especialista em Direito Trabalhista e conformidade ANPD Art. 20.</p>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- COMPLIANCE LGPD ART. 20 -->
+    <section id="lgpd" class="py-20 bg-[#060b14] border-t border-slate-800">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center max-w-3xl mx-auto mb-16">
+          <div class="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-teal-500/10 text-teal-400 border border-teal-500/30 text-xs font-bold uppercase tracking-wider mb-3">
+            <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+            <span>Privacy by Design & by Default</span>
+          </div>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-white font-display">
+            Estratégia de Compliance LGPD Integrada
+          </h2>
+          <p class="text-slate-400 mt-2 text-sm sm:text-base">
+            Projetada para garantir a integridade dos dados e o total cumprimento da legislação brasileira e orientações da ANPD.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          
+          <div class="p-6 rounded-2xl bg-slate-900/80 border border-slate-800">
+            <i data-lucide="user-check" class="w-6 h-6 text-teal-400 mb-3"></i>
+            <h3 class="text-sm font-bold text-white mb-1">Revisão Humana Obrigatória (Art. 20)</h3>
+            <p class="text-xs text-slate-400">Decisões automatizadas da triagem contam com direito a revisão por recrutador humano.</p>
+          </div>
+
+          <div class="p-6 rounded-2xl bg-slate-900/80 border border-slate-800">
+            <i data-lucide="lock" class="w-6 h-6 text-emerald-400 mb-3"></i>
+            <h3 class="text-sm font-bold text-white mb-1">Criptografia AES-256 & TLS 1.3</h3>
+            <p class="text-xs text-slate-400">Dados protegidos em repouso e trânsito com isolamento relacional no MariaDB.</p>
+          </div>
+
+          <div class="p-6 rounded-2xl bg-slate-900/80 border border-slate-800">
+            <i data-lucide="scale" class="w-6 h-6 text-cyan-400 mb-3"></i>
+            <h3 class="text-sm font-bold text-white mb-1">Não Discriminação Algorítmica</h3>
+            <p class="text-xs text-slate-400">Algoritmo focado puramente em rotas de ônibus, tempo de trajeto e disponibilidade de turnos.</p>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-slate-800 bg-[#070c18] py-14 text-slate-400 text-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 pb-10 border-b border-slate-900">
+        
+        <!-- Coluna 1 -->
+        <div class="md:col-span-5 space-y-4">
+          <div class="flex items-center space-x-2">
+            <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-400 p-0.5 flex items-center justify-center">
+              <div class="w-full h-full bg-[#070c18] rounded-[10px] flex items-center justify-center">
+                <i data-lucide="sparkles" class="w-4 h-4 text-emerald-400"></i>
+              </div>
+            </div>
+            <span class="text-lg font-bold text-white font-display">
+              Talent<span class="text-emerald-400">Flow</span>
+            </span>
+          </div>
+          
+          <p class="text-slate-400 leading-relaxed text-xs max-w-sm">
+            Plataforma de inteligência artificial aplicada à contratação e blindagem de retenção para operações de alta escala e logística.
+          </p>
+
+          <div class="flex items-center space-x-2 text-slate-400 text-[11px]">
+            <i data-lucide="map-pin" class="w-3.5 h-3.5 text-emerald-400 shrink-0"></i>
+            <span>Polos: Jaú, Barra Bonita, Bariri & Centros de Distribuição</span>
+          </div>
+
+          <div class="pt-2 text-slate-400 text-[11px]">
+            Desenvolvido por: <strong class="text-white">Danilo Gregorio Bianco</strong>
+          </div>
+        </div>
+
+        <!-- Coluna 2 -->
+        <div class="md:col-span-4 space-y-3">
+          <p class="text-white font-bold text-xs uppercase tracking-wider">
+            Navegação Institucional
+          </p>
+          <ul class="space-y-2 text-xs">
+            <li><a href="#solucao" class="hover:text-emerald-400 transition-colors">Dores do Mercado & Solução</a></li>
+            <li><a href="#roi-calculator" class="hover:text-emerald-400 transition-colors">Calculadora de ROI</a></li>
+            <li><a href="#pilares" class="hover:text-emerald-400 transition-colors">Triagem WhatsApp & Guardião 90 Dias</a></li>
+            <li><a href="#sobre-nos" class="hover:text-emerald-400 transition-colors">A Empresa & Liderança</a></li>
+            <li><a href="#lgpd" class="hover:text-emerald-400 transition-colors">Supervisão Humana & LGPD Art. 20</a></li>
+          </ul>
+        </div>
+
+        <!-- Coluna 3: Acesso ao Servidor -->
+        <div class="md:col-span-3 space-y-3">
+          <p class="text-white font-bold text-xs uppercase tracking-wider">
+            Acesso ao Servidor Seguro
+          </p>
+          
+          <button
+            onclick="goToPlatform('/rh')"
+            class="w-full py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs border border-slate-700/80 hover:border-emerald-500/50 transition-all flex items-center justify-center space-x-2 shadow-sm"
+          >
+            <i data-lucide="users" class="w-3.5 h-3.5 text-emerald-400"></i>
+            <span>Acessar Área do RH (/rh)</span>
+          </button>
+
+          <button
+            onclick="goToPlatform('/')"
+            class="w-full py-2.5 px-4 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs transition-all flex items-center justify-center space-x-2 shadow-sm"
+          >
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-slate-950"></i>
+            <span>Entrar na Plataforma</span>
+          </button>
+
+          <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-800 text-[10px] text-slate-400 space-y-1">
+            <div class="flex items-center space-x-1 text-emerald-400 font-bold">
+              <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+              <span>Servidor Operacional</span>
+            </div>
+            <p>Conexão com <span class="font-mono text-slate-300">talentflow.tail5f8db5.ts.net</span></p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="pt-6 flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-400 gap-4">
+        <p>TalentFlow &copy; 2026 • Todos os direitos reservados • Ambiente de Triagem Operacional</p>
+        <p>Desenvolvedor Responsável: <a href="https://biancodanilo.github.io/danilo/" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:underline">Danilo Gregorio Bianco</a></p>
+      </div>
+
     </div>
+  </footer>
 
-    <!-- Rodapé -->
-    <footer>
-      TalentFlow &copy; 2026 • Todos os direitos reservados • Ambiente de Triagem Operacional
-    </footer>
-  </div>
-
+  <!-- SCRIPTS REATIVOS: REDIRECIONAMENTO, RADAR E CALCULADORA DE ROI -->
   <script>
-    const TARGET_URL = "https://talentflow.tail5f8db5.ts.net/";
+    // Inicialização dos ícones Lucide
+    lucide.createIcons();
 
-    function revealErrorScreen() {
-      const probe = document.getElementById('loading-probe');
-      const wrapper = document.getElementById('main-wrapper');
-      if (probe) {
-        probe.style.opacity = '0';
-        probe.style.visibility = 'hidden';
-      }
-      if (wrapper) {
-        wrapper.classList.add('visible');
-      }
+    // Endereço Base do Servidor
+    const SERVER_BASE_URL = "https://talentflow.tail5f8db5.ts.net";
+
+    function goToPlatform(path = '') {
+      const cleanPath = path.startsWith('/') ? path : (path ? '/' + path : '');
+      window.location.href = SERVER_BASE_URL + cleanPath;
     }
 
-    function testAndRedirect() {
-      const probe = document.getElementById('loading-probe');
-      const wrapper = document.getElementById('main-wrapper');
-      if (probe) {
-        probe.style.opacity = '1';
-        probe.style.visibility = 'visible';
+    // --- RADAR DE TELEMETRIA LOGÍSTICA ---
+    const radarData = {
+      jau: {
+        city: "Jaú - SP",
+        label: "Distrito Industrial & Centro Logístico",
+        candidates: "142",
+        jobs: "18",
+        commute: "18 min",
+        candName: "Rodrigo Almeida",
+        candRole: "Op. Logístico 12x36",
+        candScore: "96% Compatibilidade",
+        candMatch: "Linha Circular Direta (4.5 km)"
+      },
+      barra: {
+        city: "Barra Bonita - SP",
+        label: "Polo Agroindustrial & Armazéns",
+        candidates: "89",
+        jobs: "11",
+        commute: "15 min",
+        candName: "Juliana Ferreira",
+        candRole: "Op. Empilhadeira NR-11",
+        candScore: "94% Compatibilidade",
+        candMatch: "Deslocamento de 3.2 km"
+      },
+      bariri: {
+        city: "Bariri - SP",
+        label: "Corredor Rodoviário & Varejo",
+        candidates: "64",
+        jobs: "7",
+        commute: "12 min",
+        candName: "Cleiton Barbosa",
+        candRole: "Auxiliar de Carga 6x1",
+        candScore: "91% Compatibilidade",
+        candMatch: "Rota Central sem baldeação"
       }
-      if (wrapper) {
-        wrapper.classList.remove('visible');
-      }
+    };
 
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 1300);
+    function selectRadarNode(key) {
+      const node = radarData[key];
+      if (!node) return;
 
-      fetch(TARGET_URL, {
-        method: 'GET',
-        mode: 'no-cors',
-        cache: 'no-store',
-        signal: controller.signal
-      })
-      .then(() => {
-        clearTimeout(timeoutId);
-        // O servidor respondeu com sucesso! Redireciona imediatamente sem mostrar tela
-        window.location.replace(TARGET_URL);
-      })
-      .catch(() => {
-        clearTimeout(timeoutId);
-        // Falhou ou deu timeout: exibe a tela de status/erro 404
-        revealErrorScreen();
+      document.getElementById('node-city').innerHTML = '<i data-lucide="map-pin" class="w-3.5 h-3.5"></i><span>' + node.city + '</span>';
+      document.getElementById('node-label').innerText = node.label;
+      document.getElementById('node-candidates').innerText = node.candidates;
+      document.getElementById('node-jobs').innerText = node.jobs;
+      document.getElementById('node-commute').innerText = node.commute;
+      document.getElementById('node-cand-name').innerText = node.candName;
+      document.getElementById('node-cand-role').innerText = node.candRole;
+      document.getElementById('node-score').innerText = node.candScore;
+      document.getElementById('node-cand-match').innerHTML = '<i data-lucide="navigation" class="w-3 h-3 shrink-0"></i><span>' + node.candMatch + '</span>';
+
+      ['jau', 'barra', 'bariri'].forEach(k => {
+        const btn = document.getElementById('btn-node-' + k);
+        if (k === key) {
+          btn.className = "px-3 py-1.5 rounded-xl text-xs font-black bg-emerald-500 text-slate-950 transition-all shadow-md";
+        } else {
+          btn.className = "px-3 py-1.5 rounded-xl text-xs font-bold text-slate-400 hover:text-white transition-all";
+        }
       });
+
+      lucide.createIcons();
     }
 
-    // Executa verificação instantânea ao carregar a página
-    window.addEventListener('DOMContentLoaded', testAndRedirect);
+    // --- CALCULADORA DE ROI EM TEMPO REAL ---
+    function updateRoiCalculation() {
+      const hiresPerMonth = parseInt(document.getElementById('slider-hires').value, 10);
+      const turnoverCost = parseInt(document.getElementById('slider-cost').value, 10);
+      const currentTurnoverRate = parseInt(document.getElementById('slider-turnover').value, 10);
+
+      document.getElementById('label-hires').innerText = hiresPerMonth + ' vagas/mês';
+      document.getElementById('label-cost').innerText = 'R$ ' + turnoverCost.toLocaleString('pt-BR');
+      document.getElementById('label-turnover').innerText = currentTurnoverRate + '%';
+
+      const annualHires = hiresPerMonth * 12;
+      const currentAnnualEarlyLosses = Math.round(annualHires * (currentTurnoverRate / 100));
+      const talentFlowLosses = Math.round(annualHires * 0.106);
+      const avoidedEarlyLosses = Math.max(0, currentAnnualEarlyLosses - talentFlowLosses);
+
+      const turnoverSavings = avoidedEarlyLosses * turnoverCost;
+      const cacSavings = annualHires * 1570;
+      const rhHoursSavings = annualHires * 14 * 35;
+      const totalAnnualSavings = turnoverSavings + cacSavings + rhHoursSavings;
+
+      const estimatedCost = Math.round(annualHires * 140);
+      const calculatedRoi = Math.round(((totalAnnualSavings - estimatedCost) / Math.max(1, estimatedCost)) * 100);
+      const paybackDays = Math.max(7, Math.round((estimatedCost / (totalAnnualSavings / 365))));
+
+      document.getElementById('calc-annual-hires').innerText = annualHires + ' contratações/ano';
+      document.getElementById('calc-roi-percent').innerText = '+' + calculatedRoi.toLocaleString('pt-BR') + '% retorno';
+      document.getElementById('calc-payback').innerText = 'Payback: ' + paybackDays + ' dias';
+      document.getElementById('calc-total-savings').innerText = 'R$ ' + totalAnnualSavings.toLocaleString('pt-BR');
+      document.getElementById('calc-avoided-losses').innerText = avoidedEarlyLosses + ' colaboradores/ano';
+      document.getElementById('calc-turnover-savings').innerText = 'R$ ' + turnoverSavings.toLocaleString('pt-BR');
+      document.getElementById('calc-cac-savings').innerText = 'R$ ' + cacSavings.toLocaleString('pt-BR');
+      document.getElementById('calc-hours-savings').innerText = 'R$ ' + rhHoursSavings.toLocaleString('pt-BR');
+    }
+
+    // Inicializa cálculos na carga
+    updateRoiCalculation();
   </script>
 
 </body>
