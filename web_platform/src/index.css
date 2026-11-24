@@ -58,7 +58,7 @@
 }
 
 .light header {
-  background-color: rgba(255, 255, 255, 0.92) !important;
+  background-color: rgba(255, 255, 255, 0.95) !important;
   border-color: #e2e8f0 !important;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
 }
@@ -68,36 +68,44 @@
   border-color: #e2e8f0 !important;
 }
 
-.light .bg-slate-950 {
+/* Background overrides in Light mode - STRICTLY EXCLUDE elements inside .preserve-dark */
+.light .bg-slate-950:not(.preserve-dark):not(.preserve-dark *) {
   background-color: #ffffff !important;
 }
 
-.light .bg-slate-900,
-.light .bg-slate-900\/90,
-.light .bg-slate-900\/80,
-.light .bg-slate-900\/60,
-.light .bg-slate-900\/50,
-.light .bg-slate-900\/40 {
+.light .bg-slate-950\/60:not(.preserve-dark):not(.preserve-dark *),
+.light .bg-slate-950\/70:not(.preserve-dark):not(.preserve-dark *),
+.light .bg-slate-950\/80:not(.preserve-dark):not(.preserve-dark *) {
+  background-color: #ffffff !important;
+}
+
+.light .bg-slate-900:not(.preserve-dark):not(.preserve-dark *),
+.light .bg-slate-900\/90:not(.preserve-dark):not(.preserve-dark *),
+.light .bg-slate-900\/80:not(.preserve-dark):not(.preserve-dark *),
+.light .bg-slate-900\/60:not(.preserve-dark):not(.preserve-dark *),
+.light .bg-slate-900\/50:not(.preserve-dark):not(.preserve-dark *),
+.light .bg-slate-900\/40:not(.preserve-dark):not(.preserve-dark *) {
   background-color: #ffffff !important;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05) !important;
 }
 
-.light .bg-slate-800,
-.light .bg-slate-850 {
+.light .bg-slate-800:not(.preserve-dark):not(.preserve-dark *),
+.light .bg-slate-850:not(.preserve-dark):not(.preserve-dark *) {
   background-color: #f1f5f9 !important;
   color: #1e293b !important;
 }
 
-.light .border-slate-800,
-.light .border-slate-800\/80,
-.light .border-slate-800\/60,
-.light .border-slate-800\/50,
-.light .border-slate-700,
-.light .border-slate-700\/80 {
+.light .border-slate-800:not(.preserve-dark):not(.preserve-dark *),
+.light .border-slate-800\/80:not(.preserve-dark):not(.preserve-dark *),
+.light .border-slate-800\/60:not(.preserve-dark):not(.preserve-dark *),
+.light .border-slate-800\/50:not(.preserve-dark):not(.preserve-dark *),
+.light .border-slate-700:not(.preserve-dark):not(.preserve-dark *),
+.light .border-slate-700\/80:not(.preserve-dark):not(.preserve-dark *) {
   border-color: #e2e8f0 !important;
 }
 
-.light .text-white:not(.preserve-dark):not(.preserve-dark *):not(.bg-emerald-600 *):not(.bg-emerald-500 *):not(button *) {
+/* Text adaptations in Light mode - strictly avoid touching preserve-dark and action buttons */
+.light .text-white:not(.preserve-dark):not(.preserve-dark *):not(.bg-emerald-600 *):not(.bg-emerald-500 *):not(button.bg-emerald-500 *):not(button.bg-emerald-600 *) {
   color: #0f172a;
 }
 
@@ -121,43 +129,98 @@
   color: #94a3b8;
 }
 
-/* Regras para preservação explícita de contraste em cards escuros e badges */
-.preserve-dark {
-  background-color: #090d16 !important;
+/* Regras Absolutas para preservação de consoles escuros, radares e cards de alta telemetria */
+.preserve-dark,
+.light .preserve-dark {
+  background-color: #070d18 !important;
   color: #f8fafc !important;
-  border-color: rgba(16, 185, 129, 0.3) !important;
+  border-color: rgba(16, 185, 129, 0.35) !important;
 }
 
-.preserve-dark .text-white {
+.preserve-dark *,
+.light .preserve-dark * {
+  border-color: rgba(30, 41, 59, 0.8);
+}
+
+.preserve-dark [class*="bg-slate-"],
+.light .preserve-dark [class*="bg-slate-"],
+.preserve-dark .bg-slate-950,
+.light .preserve-dark .bg-slate-950,
+.preserve-dark .bg-slate-900,
+.light .preserve-dark .bg-slate-900,
+.preserve-dark .bg-slate-900\/90,
+.light .preserve-dark .bg-slate-900\/90,
+.preserve-dark .bg-slate-900\/80,
+.light .preserve-dark .bg-slate-900\/80,
+.preserve-dark .bg-slate-900\/60,
+.light .preserve-dark .bg-slate-900\/60,
+.preserve-dark .bg-slate-850,
+.light .preserve-dark .bg-slate-850,
+.preserve-dark .bg-slate-800,
+.light .preserve-dark .bg-slate-800 {
+  background-color: #0b1322 !important;
+  border-color: #1e293b !important;
+  color: #f8fafc !important;
+}
+
+.preserve-dark .text-white,
+.light .preserve-dark .text-white {
   color: #ffffff !important;
 }
 
-.preserve-dark .text-slate-100 {
+.preserve-dark .text-slate-100,
+.light .preserve-dark .text-slate-100 {
   color: #f1f5f9 !important;
 }
 
-.preserve-dark .text-slate-200 {
+.preserve-dark .text-slate-200,
+.light .preserve-dark .text-slate-200 {
   color: #e2e8f0 !important;
 }
 
-.preserve-dark .text-slate-300 {
+.preserve-dark .text-slate-300,
+.light .preserve-dark .text-slate-300 {
   color: #cbd5e1 !important;
 }
 
-.preserve-dark .text-slate-400 {
+.preserve-dark .text-slate-400,
+.light .preserve-dark .text-slate-400 {
   color: #94a3b8 !important;
 }
 
-.preserve-dark .text-emerald-400 {
+.preserve-dark .text-emerald-400,
+.light .preserve-dark .text-emerald-400 {
   color: #34d399 !important;
 }
 
-.preserve-dark .text-emerald-300 {
+.preserve-dark .text-emerald-300,
+.light .preserve-dark .text-emerald-300 {
   color: #6ee7b7 !important;
 }
 
-.light input,
-.light select {
+.preserve-dark .text-cyan-300,
+.light .preserve-dark .text-cyan-300,
+.preserve-dark .text-cyan-400,
+.light .preserve-dark .text-cyan-400 {
+  color: #67e8f9 !important;
+}
+
+.preserve-dark .text-teal-300,
+.light .preserve-dark .text-teal-300,
+.preserve-dark .text-teal-400,
+.light .preserve-dark .text-teal-400 {
+  color: #5eead4 !important;
+}
+
+.preserve-dark .text-indigo-300,
+.light .preserve-dark .text-indigo-300,
+.preserve-dark .text-indigo-400,
+.light .preserve-dark .text-indigo-400 {
+  color: #a5b4fc !important;
+}
+
+.light input:not(.preserve-dark *),
+.light select:not(.preserve-dark *) {
   background-color: #f8fafc !important;
   border-color: #cbd5e1 !important;
   color: #0f172a !important;

@@ -56,16 +56,16 @@ export default function RoiCalculator({ onGoToRh, onGoToAdmin, onGoToDashboard }
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
           
           {/* Sliders de Entrada */}
-          <div className="lg:col-span-7 bg-slate-950 p-6 sm:p-8 rounded-3xl border border-slate-800 shadow-2xl flex flex-col justify-between space-y-8 preserve-dark">
+          <div className="lg:col-span-7 bg-white dark:bg-slate-950 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl flex flex-col justify-between space-y-8">
             
             {/* Slider 1: Contratações / Mês */}
             <div>
               <div className="flex justify-between items-center mb-2">
-                <label className="text-sm font-semibold text-slate-100 flex items-center space-x-2">
-                  <Users className="w-4 h-4 text-emerald-400" />
+                <label className="text-sm font-semibold text-slate-800 dark:text-slate-100 flex items-center space-x-2">
+                  <Users className="w-4 h-4 text-emerald-500 dark:text-emerald-400" />
                   <span>Contratações Operacionais por Mês</span>
                 </label>
-                <span className="text-lg font-black text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-xl border border-emerald-500/30">
+                <span className="text-lg font-black text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-500/10 px-3 py-1 rounded-xl border border-emerald-200 dark:border-emerald-500/30">
                   {hiresPerMonth} vagas/mês
                 </span>
               </div>
@@ -76,9 +76,9 @@ export default function RoiCalculator({ onGoToRh, onGoToAdmin, onGoToDashboard }
                 step="5"
                 value={hiresPerMonth}
                 onChange={(e) => setHiresPerMonth(Number(e.target.value))}
-                className="w-full h-2.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-400"
+                className="w-full h-2.5 bg-slate-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-500"
               />
-              <div className="flex justify-between text-[11px] text-slate-400 mt-1">
+              <div className="flex justify-between text-[11px] text-slate-500 dark:text-slate-400 mt-1">
                 <span>5 (Pequeno Centro)</span>
                 <span>100 (Médio Porte)</span>
                 <span>250+ (Grande CD / Fábrica)</span>
@@ -88,11 +88,11 @@ export default function RoiCalculator({ onGoToRh, onGoToAdmin, onGoToDashboard }
             {/* Slider 2: Custo por Turnover Precoce */}
             <div>
               <div className="flex justify-between items-center mb-2">
-                <label className="text-sm font-semibold text-slate-100 flex items-center space-x-2">
-                  <DollarSign className="w-4 h-4 text-teal-400" />
+                <label className="text-sm font-semibold text-slate-800 dark:text-slate-100 flex items-center space-x-2">
+                  <DollarSign className="w-4 h-4 text-teal-600 dark:text-teal-400" />
                   <span>Custo Médio de Evasão nos 90 Dias (por pessoa)</span>
                 </label>
-                <span className="text-lg font-black text-teal-300 bg-teal-500/10 px-3 py-1 rounded-xl border border-teal-500/30">
+                <span className="text-lg font-black text-teal-700 dark:text-teal-300 bg-teal-50 dark:bg-teal-500/10 px-3 py-1 rounded-xl border border-teal-200 dark:border-teal-500/30">
                   R$ {turnoverCost.toLocaleString('pt-BR')}
                 </span>
               </div>
@@ -103,9 +103,9 @@ export default function RoiCalculator({ onGoToRh, onGoToAdmin, onGoToDashboard }
                 step="200"
                 value={turnoverCost}
                 onChange={(e) => setTurnoverCost(Number(e.target.value))}
-                className="w-full h-2.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-teal-400"
+                className="w-full h-2.5 bg-slate-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-teal-500"
               />
-              <p className="text-[11px] text-slate-400 mt-1">
+              <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1">
                 Considera exames admissionais/demissionais, kits de EPIs, treinamento inicial e ociosidade de maquinário.
               </p>
             </div>
@@ -113,11 +113,11 @@ export default function RoiCalculator({ onGoToRh, onGoToAdmin, onGoToDashboard }
             {/* Slider 3: Taxa Atual de Turnover nos 90 Dias */}
             <div>
               <div className="flex justify-between items-center mb-2">
-                <label className="text-sm font-semibold text-slate-100 flex items-center space-x-2">
-                  <TrendingUp className="w-4 h-4 text-indigo-400" />
+                <label className="text-sm font-semibold text-slate-800 dark:text-slate-100 flex items-center space-x-2">
+                  <TrendingUp className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
                   <span>Sua Taxa Atual de Evasão nos Primeiros 90 Dias</span>
                 </label>
-                <span className="text-lg font-black text-indigo-300 bg-indigo-500/10 px-3 py-1 rounded-xl border border-indigo-500/30">
+                <span className="text-lg font-black text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-500/10 px-3 py-1 rounded-xl border border-indigo-200 dark:border-indigo-500/30">
                   {currentTurnoverRate}%
                 </span>
               </div>
@@ -128,22 +128,22 @@ export default function RoiCalculator({ onGoToRh, onGoToAdmin, onGoToDashboard }
                 step="1"
                 value={currentTurnoverRate}
                 onChange={(e) => setCurrentTurnoverRate(Number(e.target.value))}
-                className="w-full h-2.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-indigo-400"
+                className="w-full h-2.5 bg-slate-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-indigo-500"
               />
-              <p className="text-[11px] text-slate-400 mt-1">
+              <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1">
                 A média do setor logístico e varejista na região varia de 45% a 55% de abandono antes do 90º dia.
               </p>
             </div>
 
             {/* Indicadores complementares em grid */}
             <div className="grid grid-cols-2 gap-3 pt-2">
-              <div className="p-3.5 rounded-2xl bg-slate-900 border border-slate-800">
-                <p className="text-[11px] text-slate-400">Total Anual de Vagas</p>
-                <p className="text-base font-bold text-white mt-0.5">{annualHires} contratações/ano</p>
+              <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+                <p className="text-[11px] text-slate-500 dark:text-slate-400">Total Anual de Vagas</p>
+                <p className="text-base font-bold text-slate-900 dark:text-white mt-0.5">{annualHires} contratações/ano</p>
               </div>
-              <div className="p-3.5 rounded-2xl bg-slate-900 border border-slate-800">
-                <p className="text-[11px] text-slate-400">Retorno Estimado (ROI)</p>
-                <p className="text-base font-bold text-emerald-400 mt-0.5">+{calculatedRoi}% sobre investimento</p>
+              <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+                <p className="text-[11px] text-slate-500 dark:text-slate-400">Retorno Estimado (ROI)</p>
+                <p className="text-base font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">+{calculatedRoi}% sobre investimento</p>
               </div>
             </div>
 

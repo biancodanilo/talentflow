@@ -121,7 +121,7 @@ export default function Hero({ onOpenRoiCalculator, onGoToRh }) {
               </div>
 
               {/* Node selector buttons: Jaú, Barra Bonita, Bariri */}
-              <div className="flex items-center space-x-1 bg-slate-900 p-1 rounded-2xl border border-slate-800 self-start sm:self-auto">
+              <div className="flex items-center space-x-1 bg-[#070d18] p-1 rounded-2xl border border-slate-800 self-start sm:self-auto">
                 {Object.keys(nodes).map((key) => {
                   const node = nodes[key];
                   const isActive = activeNode === key;
@@ -147,7 +147,7 @@ export default function Hero({ onOpenRoiCalculator, onGoToRh }) {
               
               {/* Left Column: Active Node Info & Metrics */}
               <div className="lg:col-span-5 space-y-4">
-                <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-2">
+                <div className="p-4 rounded-2xl bg-[#0b1322] border border-slate-800 space-y-2">
                   <div className="flex items-center justify-between text-xs">
                     <span className="text-slate-400 font-semibold">Polo Selecionado:</span>
                     <span className="text-emerald-400 font-bold flex items-center space-x-1">
@@ -159,22 +159,22 @@ export default function Hero({ onOpenRoiCalculator, onGoToRh }) {
                 </div>
 
                 <div className="grid grid-cols-3 gap-2">
-                  <div className="p-3 rounded-2xl bg-slate-900/80 border border-slate-800 text-center">
+                  <div className="p-3 rounded-2xl bg-[#0b1322] border border-slate-800 text-center">
                     <p className="text-[10px] text-slate-400 uppercase font-semibold">Candidatos</p>
                     <p className="text-lg font-black text-white mt-0.5">{currentNode.candidates}</p>
                   </div>
-                  <div className="p-3 rounded-2xl bg-slate-900/80 border border-slate-800 text-center">
+                  <div className="p-3 rounded-2xl bg-[#0b1322] border border-slate-800 text-center">
                     <p className="text-[10px] text-slate-400 uppercase font-semibold">Vagas Abertas</p>
                     <p className="text-lg font-black text-emerald-400 mt-0.5">{currentNode.activeJobs}</p>
                   </div>
-                  <div className="p-3 rounded-2xl bg-slate-900/80 border border-slate-800 text-center">
+                  <div className="p-3 rounded-2xl bg-[#0b1322] border border-slate-800 text-center">
                     <p className="text-[10px] text-slate-400 uppercase font-semibold">Deslocamento</p>
                     <p className="text-lg font-black text-teal-300 mt-0.5">{currentNode.avgCommute}</p>
                   </div>
                 </div>
 
                 {/* Candidate Spotlight Card */}
-                <div className="p-4 rounded-2xl bg-gradient-to-r from-emerald-950/60 to-slate-900 border border-emerald-500/30">
+                <div className="p-4 rounded-2xl bg-gradient-to-r from-emerald-950/70 to-[#0b1322] border border-emerald-500/30">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-wider">Top Match Logístico</span>
                     <span className="text-xs font-black text-emerald-300 bg-emerald-500/20 px-2 py-0.5 rounded-md">
@@ -202,7 +202,7 @@ export default function Hero({ onOpenRoiCalculator, onGoToRh }) {
 
                 {/* Visual Route Matching representation */}
                 <div className="py-4 space-y-3 font-mono text-xs">
-                  <div className="flex items-center justify-between p-2.5 rounded-xl bg-slate-900/90 border border-slate-800">
+                  <div className="flex items-center justify-between p-2.5 rounded-xl bg-[#0b1322] border border-slate-800">
                     <div className="flex items-center space-x-2.5">
                       <div className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
                       <span className="text-slate-200">Triagem WhatsApp</span>
@@ -210,7 +210,7 @@ export default function Hero({ onOpenRoiCalculator, onGoToRh }) {
                     <span className="text-emerald-400 font-bold text-[11px]">Média de resposta: 2min 40s</span>
                   </div>
 
-                  <div className="flex items-center justify-between p-2.5 rounded-xl bg-slate-900/90 border border-slate-800">
+                  <div className="flex items-center justify-between p-2.5 rounded-xl bg-[#0b1322] border border-slate-800">
                     <div className="flex items-center space-x-2.5">
                       <div className="w-2 h-2 rounded-full bg-cyan-400" />
                       <span className="text-slate-200">Linha de Ônibus & Baldeação</span>
@@ -218,7 +218,7 @@ export default function Hero({ onOpenRoiCalculator, onGoToRh }) {
                     <span className="text-cyan-300 font-bold text-[11px]">Zero risco de atraso turno 06h</span>
                   </div>
 
-                  <div className="flex items-center justify-between p-2.5 rounded-xl bg-slate-900/90 border border-slate-800">
+                  <div className="flex items-center justify-between p-2.5 rounded-xl bg-[#0b1322] border border-slate-800">
                     <div className="flex items-center space-x-2.5">
                       <div className="w-2 h-2 rounded-full bg-indigo-400" />
                       <span className="text-slate-200">Guardião 90 Dias</span>
